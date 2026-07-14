@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aegium - Pantalla del Director de Juego</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700&family=MedievalSharp&family=Spectral:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    .font-medieval { font-family: 'MedievalSharp', cursive, serif; }
+    .font-cinzel { font-family: 'Cinzel', Georgia, serif; }
+    .font-cinzel-dec { font-family: 'Cinzel Decorative', Georgia, serif; }
+    .font-body { font-family: 'Spectral', Georgia, serif; }
+
+    body {
+      background-color: #120c06;
+      background-image: radial-gradient(circle, #22150a 0%, #0d0703 100%);
+      background-attachment: fixed;
+    }
+
+    .parchment {
+      background-color: #f3e5ca;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0) 100%),
+        radial-gradient(circle at 15% 15%, rgba(101, 67, 33, 0.15) 0%, rgba(0, 0, 0, 0) 60%),
+        radial-gradient(circle at 85% 85%, rgba(70, 40, 15, 0.18) 0%, rgba(0, 0, 0, 0) 50%);
+      box-shadow: 
+        inset 0 0 50px rgba(80, 45, 15, 0.4),
+        inset 0 0 15px rgba(0, 0, 0, 0.6),
+        0 12px 28px rgba(0, 0, 0, 0.85);
+      border: 2px solid #b8925a;
+      position: relative;
+    }
+
+    .parchment::before {
+      content: '';
+      position: absolute;
+      top: 4px; left: 4px; right: 4px; bottom: 4px;
+      border: 1px solid rgba(101, 67, 33, 0.35);
+      pointer-events: none;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #150b04; }
+    ::-webkit-scrollbar-thumb {
+      background: #4a2d18;
+      border: 1px solid #7c4a24;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: #7c4a24; }
+
+    .active-tab {
+      background-color: #f3e5ca !important;
+      color: #2a180c !important;
+      border-color: #7c4a24 !important;
+      box-shadow: 0 4px 15px rgba(243, 229, 202, 0.25);
+    }
+
+    .map-frame {
+      border: 6px double #3b2314;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+      background-color: #0b0603;
+      position: relative;
+    }
+
+    .map-image { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    .map-image:hover { transform: scale(1.02); }
+
+    .hq-die {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 3.5rem;
+      height: 3.5rem;
+      border: 2px solid #3b2314;
+      border-radius: 0.375rem;
+      font-size: 1.75rem;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: transform 0.15s ease;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between font-body antialiased selection:bg-amber-900 selection:text-amber-100">
+
+  <header class="w-full py-6 text-center border-b border-amber-950/40 bg-black/40 backdrop-blur-sm">
+    <h1 class="text-3xl md:text-5xl font-cinzel-dec text-amber-500 tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+      AEGIUM
+    </h1>
+    <p class="text-xs md:text-sm font-cinzel text-amber-600/80 tracking-widest mt-2 uppercase">
+      Pantalla del Director de Juego &bull; Compendio de Campaña
+    </p>
+  </header>
+
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8">
+    
+    <div class="flex flex-wrap justify-center gap-2 mb-6">
+      <button onclick="switchTab('cronica')" id="btn-cronica" class="px-5 py-2.5 font-medieval text-sm md:text-base border border-amber-800/40 bg-stone-900 text-amber-500 rounded transition duration-200 hover:bg-stone-800 active-tab">
+        📜 La Crónica
+      </button>
+      <button onclick="switchTab('reglas')" id="btn-reglas" class="px-5 py-2.5 font-medieval text-sm md:text-base border border-amber-800/40 bg-stone-900 text-amber-500 rounded transition duration-200 hover:bg-stone-800">
+        🛡️ Leyes de Aegium
+      </button>
+      <button onclick="switchTab('misiones')" id="btn-misiones" class="px-5 py-2.5 font-medieval text-sm md:text-base border border-amber-800/40 bg-stone-900 text-amber-500 rounded transition duration-200 hover:bg-stone-800">
+        ⚔️ Misiones
+      </button>
+      <button onclick="switchTab('ubicaciones')" id="btn-ubicaciones" class="px-5 py-2.5 font-medieval text-sm md:text-base border border-amber-800/40 bg-stone-900 text-amber-500 rounded transition duration-200 hover:bg-stone-800">
+        🗺️ Ubicaciones
+      </button>
+      <button onclick="switchTab('herramientas')" id="btn-herramientas" class="px-5 py-2.5 font-medieval text-sm md:text-base border border-amber-800/40 bg-stone-900 text-amber-500 rounded transition duration-200 hover:bg-stone-800">
+        🎲 Mesa del DM
+      </button>
+    </div>
+
+    <section id="tab-cronica" class="tab-content block">
+      <div class="parchment rounded-lg p-6 md:p-12 text-stone-900 max-w-4xl mx-auto">
+        <div class="absolute top-4 left-4 w-12 h-12 text-amber-800/40">
+          <svg viewBox="0 0 100 100" class="fill-current"><path d="M0,0 L40,0 C20,20 20,20 0,40 Z M0,0 L0,40 C20,20 20,20 40,0 Z M15,15 A 10,10 0 1,0 25,25 A 10,10 0 1,0 15,15 Z" /></svg>
+        </div>
+        <div class="absolute top-4 right-4 w-12 h-12 text-amber-800/40 transform rotate-90">
+          <svg viewBox="0 0 100 100" class="fill-current"><path d="M0,0 L40,0 C20,20 20,20 0,40 Z M0,0 L0,40 C20,20 20,20 40,0 Z M15,15 A 10,10 0 1,0 25,25 A 10,10 0 1,0 15,15 Z" /></svg>
+        </div>
+        <div class="absolute bottom-4 left-4 w-12 h-12 text-amber-800/40 transform -rotate-90">
+          <svg viewBox="0 0 100 100" class="fill-current"><path d="M0,0 L40,0 C20,20 20,20 0,40 Z M0,0 L0,40 C20,20 20,20 40,0 Z M15,15 A 10,10 0 1,0 25,25 A 10,10 0 1,0 15,15 Z" /></svg>
+        </div>
+        <div class="absolute bottom-4 right-4 w-12 h-12 text-amber-800/40 transform rotate-180">
+          <svg viewBox="0 0 100 100" class="fill-current"><path d="M0,0 L40,0 C20,20 20,20 0,40 Z M0,0 L0,40 C20,20 20,20 40,0 Z M15,15 A 10,10 0 1,0 25,25 A 10,10 0 1,0 15,15 Z" /></svg>
+        </div>
+
+        <div class="text-center mb-8 border-b border-amber-900/20 pb-6">
+          <h2 class="font-cinzel text-2xl md:text-4xl text-amber-950 font-bold tracking-wide">El Ocaso de Aegium</h2>
+          <p class="font-medieval text-amber-800 text-sm mt-1">Crónica para el inicio de la gesta</p>
+        </div>
+
+        <div id="narrative-text" class="text-base md:text-lg leading-relaxed text-stone-800 space-y-6 text-justify px-4 md:px-8">
+          <p class="first-letter:text-5xl first-letter:font-cinzel-dec first-letter:float-left first-letter:mr-3 first-letter:text-amber-900">
+            Hubo un tiempo en que Aegium era un hogar predecible. Durante siglos, los reinos humanos creyeron ser los únicos dueños y señores del continente, librando guerras menores por fronteras y disputas comerciales sin verdadera importancia. Pero la historia se quebró hace exactamente trescientos años con el <strong class="text-amber-950 font-semibold">Gran Cataclismo</strong>.
+          </p>
+          <p>
+            De la noche a la mañana, los cielos celestes murieron, tiñéndose para siempre de un perpetuo tono naranja y rojo sangre, como un amanecer atrapado en una agonía eterna. Con la oscuridad, surgieron de la nada hordas de orcos, magos oscuros y colosales dragones que amenazaron con extinguir toda vida. Ante la aniquilación inminente, el mito se hizo realidad: los elfos emergieron de las profundidades de los bosques de Emeris y los enanos de los corazones de las montañas, donde habían vivido ocultos durante eras para evitar la expansión humana. La necesidad mutua los obligó a pactar. No fue una alianza idílica; costó décadas de desconfianza, disputas territoriales y guerras internas comprender que debían sangrar juntos para no extinguirse bajo las garras del mal.
+          </p>
+          <p>
+            Tres siglos después, esa precaria y tensa convivencia es la única norma. Vuestro grupo es el reflejo viviente de este nuevo mundo: un enano, un elfo, un mago y un caballero. Cuatro cazarrecompensas que no gozan precisamente de buena reputación ni de bolsillos llenos, pero que se tienen los unos a los otros en un continente que los mira con recelo.
+          </p>
+          <p class="italic bg-amber-900/5 p-4 rounded border-l-4 border-amber-800 text-stone-900">
+            Hoy os encontráis en la <strong>Taberna de Helmet</strong>, un tugurio de mala muerte en el asentamiento de <strong>Hamlet</strong>. Mientras apuráis la cerveza barata y esquiváis las miradas sospechosas de los lugareños —quienes aún ven con desconfianza la mezcla de vuestras sangres—, un rumor empieza a cobrar fuerza entre las mesas: algo se agita en el extremo opuesto del continente, al sureste, en las inhóspitas tierras de <strong>Kalla Tors</strong>. Dicen que una antigua mazmorra, rodeada por el territory de los dragones, aguarda a quienes tengan el valor de cruzar Aegium... o a quienes, como vosotros, ya no tengan nada que perder.
+          </p>
+        </div>
+
+        <div class="mt-8 flex justify-end px-4 md:px-8">
+          <button onclick="copyNarrative()" class="flex items-center gap-2 px-4 py-2 text-xs font-medieval tracking-wider uppercase border border-amber-900/30 bg-amber-900/10 text-amber-950 rounded hover:bg-amber-900/20 active:scale-95 transition-all">
+            📜 Copiar Relato
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-reglas" class="tab-content hidden">
+      <div class="parchment rounded-lg p-6 md:p-10 text-stone-900 max-w-4xl mx-auto space-y-8">
+        <div class="text-center border-b border-amber-900/20 pb-4">
+          <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide">Compendio de Leyes de Aegium</h2>
+          <p class="font-medieval text-amber-800 text-sm mt-1">Sistemas y mecánicas de la campaña</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm md:text-base">
+          <div class="space-y-3 bg-amber-900/5 p-4 rounded border border-amber-900/15">
+            <h3 class="font-medieval text-amber-900 text-lg border-b border-amber-900/20 pb-1">⚜️ Ley Primera: Motor de Juego</h3>
+            <p class="text-stone-800 leading-relaxed">
+              La campaña se rige rigurosamente bajo el sistema y reglamento de <strong class="text-amber-950">HeroQuest</strong> (edición clásica / juego base). Esto incluye combate táctico con dados de escudo/calavera, distribución de puntos de Cuerpo y Mente, búsqueda de tesoros, trampas y puertas ocultas.
+            </p>
+          </div>
+
+          <div class="space-y-3 bg-amber-900/5 p-4 rounded border border-amber-900/15">
+            <h3 class="font-medieval text-amber-900 text-lg border-b border-amber-900/20 pb-1">🔨 Ley Segunda: Desgaste de Equipo</h3>
+            <p class="text-stone-800 leading-relaxed">
+              El equipo (armas, armaduras y herramientas) posee un valor de <strong class="text-amber-950">Durabilidad</strong> máxima que se consume con el uso. Su pérdida acarrea graves penalizaciones:
+            </p>
+            <ul class="list-disc pl-5 text-stone-800 space-y-1">
+              <li><strong>Al 50% de durabilidad:</strong> <span class="text-red-800 font-bold">-1 dado de Ataque y -1 de Defensa</span>.</li>
+              <li><strong>Al 25% de durabilidad:</strong> <span class="text-red-800 font-bold">-2 dados de Ataque y -2 de Defensa</span>.</li>
+              <li><strong>Protección Base:</strong> Las piezas con un valor base menor a 2 puntos están exentas de las penalizaciones de -1 o -2 para no quedar inútiles.</li>
+              <li><strong>Al 100% de desgaste (0% durabilidad):</strong> La pieza se rompe irreversiblemente y se destruye.</li>
+              <li><strong>Reparaciones:</strong> Cualquier pieza puede repararse en un herrero pagando su coste antes de llegar a 0%.</li>
+            </ul>
+          </div>
+
+          <div class="space-y-3 bg-amber-900/5 p-4 rounded border border-amber-900/15">
+            <h3 class="font-medieval text-amber-900 text-lg border-b border-amber-900/20 pb-1">🪦 Ley Tercera: El Destino del Caído</h3>
+            <p class="text-stone-800 leading-relaxed">
+              La muerte no es necesariamente el fin de tus tesoros, pero exige sacrificio:
+            </p>
+            <ul class="list-disc pl-5 text-stone-800 space-y-1">
+              <li><strong>La Lápida:</strong> Al morir un héroe, se genera una lápida en esa casilla de la mazmorra o la última zona visitada. Los aliados pueden viajar allí y recuperar todo su inventario.</li>
+              <li><strong>Pillaje Enemigo:</strong> Si el jugador muere estando <span class="text-red-900 font-bold">solo en una habitación con monstruos activos</span>, estos saquearán el cadáver y el equipo se perderá para siempre.</li>
+              <li><strong>Olvido Eterno:</strong> Si un jugador perece de camino a recuperar una lápida anterior, la lápida más antigua se disuelve en el éter, perdiéndose sus tesoros irremisiblemente.</li>
+            </ul>
+          </div>
+
+          <div class="space-y-3 bg-amber-900/5 p-4 rounded border border-amber-900/15">
+            <h3 class="font-medieval text-amber-900 text-lg border-b border-amber-900/20 pb-1">🎲 Ley Cuarta: Interacción con el Entorno</h3>
+            <p class="text-stone-800 leading-relaxed">
+              Toda acción fuera del combate básico de HeroQuest que implique interactuar con PNJs, buscar pistas complejas, forzar cerraduras o realizar proezas físicas requiere una tirada de <strong class="text-amber-950">Dado de 20 caras (D20)</strong>. El Director de Juego fijará la dificultad en secreto según la complejidad del escenario.
+            </p>
+          </div>
+
+          <div class="space-y-3 bg-amber-900/5 p-4 rounded border border-amber-900/15">
+            <h3 class="font-medieval text-amber-900 text-lg border-b border-amber-900/20 pb-1">🍖 Ley Quinta: El Rigor del Camino</h3>
+            <p class="text-stone-800 leading-relaxed">
+              Aegium es hostil y las distancias en el mapa hexagonal son devastadoras:
+            </p>
+            <ul class="list-disc pl-5 text-stone-800 space-y-1">
+              <li><strong>La Escala:</strong> Cada casilla hexagonal equivale a <strong class="text-amber-950">1 día de marcha</strong>.</li>
+              <li><strong>Sustento:</strong> Se requieren estrictamente <strong class="text-amber-950">2 raciones de comida</strong> (muslitos) para superar cada día de viaje.</li>
+              <li><strong>Hambruna:</strong> Por cada día de viaje sin sustento, el héroe pierde <span class="text-red-800 font-bold">1 punto de Cuerpo (HP)</span>. Además, por cada 2 puntos de Cuerpo perdidos por desnutrición, la cordura flaquea y se pierde <span class="text-purple-800 font-bold">1 punto de Mente (MP)</span>.</li>
+            </ul>
+          </div>
+
+          <div class="space-y-3 bg-amber-900/5 p-4 rounded border border-amber-900/15">
+            <h3 class="font-medieval text-amber-900 text-lg border-b border-amber-900/20 pb-1">🐉 Ley Sexta: La Evolución de la Amenaza</h3>
+            <p class="text-stone-800 leading-relaxed">
+              El Cataclismo mutó a la fauna y las hordas del mal. Cada criatura base de Aegium puede presentarse en tres vertientes de peligro:
+            </p>
+            <ul class="list-disc pl-5 text-stone-800 space-y-1">
+              <li><strong>Nivel 1 (Base):</strong> Atributos estándar del manual original de HeroQuest.</li>
+              <li><strong>Nivel 2 (Élite):</strong> Estadísticas incrementadas (+1 dado de combate o más vitalidad).</li>
+              <li><strong>Nivel 3 (Campeón / Mutado):</strong> Atributos legendarios junto a conjuros arcanos o habilidades especiales destructivas.</li>
+            </ul>
+          </div>
+
+          <div class="space-y-3 bg-amber-900/5 p-4 rounded border border-amber-900/15 md:col-span-2">
+            <h3 class="font-medieval text-amber-900 text-lg border-b border-amber-900/20 pb-1">💰 Ley Séptima: Mercado y Negociación</h3>
+            <p class="text-stone-800 leading-relaxed">
+              En Aegium, los cazarrecompensas pueden vender sus piezas de equipamiento sobrantes al herrero de Hamlet. El Director de Juego fijará los precios de forma directa, pero los jugadores pueden intentar <strong class="text-amber-950">negociar y regatear utilizando tiradas de dado D20</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!-- FIN PARTE 1 -->
+<!-- ♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍ -->
+
+    <section id="tab-misiones" class="tab-content hidden">
+      <div class="parchment rounded-lg p-6 md:p-10 text-stone-900 max-w-4xl mx-auto space-y-6">
+        
+        <div id="misiones-menu" class="block space-y-6">
+          <div class="text-center border-b border-amber-900/20 pb-4">
+            <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide">Bitácora de Gesta</h2>
+            <p class="font-medieval text-amber-800 text-sm mt-1">Selecciona una crónica activa para desplegar sus registros</p>
+          </div>
+
+          <div class="grid grid-cols-1 gap-6 max-w-xl mx-auto pt-2">
+            <div id="card-mission-prologo" class="border-2 border-amber-900/40 bg-amber-900/5 rounded-xl p-4 transition-all space-y-3 shadow-inner">
+              <div onclick="openMissionDetails('prologo')" class="flex justify-between items-center cursor-pointer group">
+                <div>
+                  <span id="badge-prologo" class="text-[10px] font-medieval font-bold text-red-900 uppercase tracking-widest bg-red-950/10 px-2 py-0.5 rounded">Activa</span>
+                  <h3 id="title-prologo" class="font-cinzel text-xl text-amber-950 font-bold mt-1 group-hover:text-amber-900 transition-colors">Prólogo: Invasión en Hamlet</h3>
+                  <p class="text-xs text-stone-700 font-body italic mt-0.5">La Taberna de Helmet bajo el asalto de la horda orca.</p>
+                </div>
+                <span id="icon-prologo" class="text-2xl opacity-70 group-hover:opacity-100 transition-opacity">⚔️</span>
+              </div>
+              
+              <div class="pt-2 border-t border-amber-900/20 flex flex-wrap gap-2 items-center justify-between text-[11px] font-medieval">
+                <span class="text-amber-900/80 uppercase tracking-wider font-bold">🛠️ Ajustes del DM:</span>
+                <div class="flex gap-1 font-sans">
+                  <button onclick="setMissionLock('prologo', false)" class="px-2.5 py-1 bg-amber-950 text-amber-200 text-xs rounded border border-amber-700/50 shadow-sm">🔓 Abrir</button>
+                  <button onclick="setMissionLock('prologo', true)" class="px-2.5 py-1 bg-stone-800 text-stone-400 text-xs rounded border border-stone-600/40">🔒 Cerrar</button>
+                  <button onclick="setMissionStatus('prologo', 'activa')" class="px-2.5 py-1 bg-red-800 text-red-100 text-xs rounded shadow-sm">🔥 Activa</button>
+                  <button onclick="setMissionStatus('prologo', 'completada')" class="px-2.5 py-1 bg-green-800 text-green-100 text-xs rounded shadow-sm">✅ Hecha</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="card-mission-cap1" class="border-2 border-stone-400/40 bg-stone-900/5 rounded-xl p-4 transition-all opacity-50 space-y-3">
+              <div id="click-cap1" onclick="openMissionDetails('cap1')" class="flex justify-between items-center pointer-events-none group">
+                <div>
+                  <span id="badge-cap1" class="text-[10px] font-medieval font-bold text-stone-600 uppercase tracking-widest bg-stone-950/10 px-2 py-0.5 rounded">Bloqueada</span>
+                  <h3 id="title-cap1" class="font-cinzel text-xl text-stone-600 font-bold mt-1">Capítulo I: Las Tierras Inhóspitas</h3>
+                  <p class="text-xs text-stone-500 font-body italic mt-0.5">Ruta hacia las ruinas olvidadas cerca de Kalla Tors.</p>
+                </div>
+                <span id="icon-cap1" class="text-2xl">🔒</span>
+              </div>
+              
+              <div class="pt-2 border-t border-amber-900/20 flex flex-wrap gap-2 items-center justify-between text-[11px] font-medieval">
+                <span class="text-amber-900/80 uppercase tracking-wider font-bold">🛠️ Ajustes del DM:</span>
+                <div class="flex gap-1 font-sans">
+                  <button onclick="setMissionLock('cap1', false)" class="px-2.5 py-1 bg-amber-950 text-amber-200 text-xs rounded border border-amber-700/50 shadow-sm">🔓 Abrir</button>
+                  <button onclick="setMissionLock('cap1', true)" class="px-2.5 py-1 bg-stone-800 text-stone-400 text-xs rounded border border-stone-600/40">🔒 Cerrar</button>
+                  <button onclick="setMissionStatus('cap1', 'activa')" class="px-2.5 py-1 bg-red-800 text-red-100 text-xs rounded shadow-sm">🔥 Activa</button>
+                  <button onclick="setMissionStatus('cap1', 'completada')" class="px-2.5 py-1 bg-green-800 text-green-100 text-xs rounded shadow-sm">✅ Hecha</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="mission-content-prologo" class="hidden space-y-6">
+          <div class="flex justify-between items-center border-b border-amber-900/20 pb-2">
+            <button onclick="backToMisionesMenu()" class="px-3 py-1 bg-amber-950/10 hover:bg-amber-900/20 border border-amber-900/30 text-amber-950 font-medieval text-xs rounded transition-all">
+              ↩️ Volver al Listado
+            </button>
+            <span class="text-red-900 font-medieval font-bold text-xs uppercase tracking-widest bg-red-950/10 px-3 py-1 rounded">Primera Misión</span>
+          </div>
+
+          <div class="text-center">
+            <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide mt-2">Misión: Invasión en Hamlet</h2>
+            <p class="font-medieval text-amber-800 text-sm mt-1">Directrices del encuentro para el Dungeon Master</p>
+          </div>
+
+          <div class="bg-red-950/5 p-5 rounded border border-red-900/20 text-sm text-stone-800 leading-relaxed space-y-3">
+            <h3 class="font-medieval text-red-900 text-base font-bold uppercase tracking-wider">🔥 El Asalto de la Horda</h3>
+            <p class="italic text-stone-900 font-medium">
+              "Os encontráis en la Taberna de Hamlet, en el asentamiento del mismo nombre, cuando de repente las puertas son abiertas de par en par. Un viento gélido apaga las antorchas y una niebla cenicienta se extiende por el salón. El Heraldo del Ocaso irrumpe en el umbral, una figura imponente que, con un gesto de su mano, ordena la invasión. Hordas de orcos irrumpen en la taberna, sembrando el caos y confinando a los héroes momentáneamente. Tras dar estas instrucciones, el Heraldo se retira para liderar el asalto general sobre el pueblo."
+            </p>
+            <div class="p-3 bg-amber-950/10 text-xs rounded border-l-4 border-amber-800 text-amber-950 font-semibold">
+              📌 La taberna ha sido tomada, vuestros objetos han sido confiscados y guardados en la cocina. El objetivo es claro: recuperar el equipamiento, buscar a vuestros aliados repartidos por el local y liberar la taberna eliminando a los orcos invasores.
+            </div>
+          </div>
+
+          <div class="bg-amber-950/10 p-5 rounded-xl border border-amber-900/30 space-y-4">
+            <h3 class="font-medieval text-amber-950 text-lg border-b border-amber-900/20 pb-1">👾 Despliegue de Fuerzas Invasoras</h3>
+            <p class="text-sm text-stone-800">
+              En esta primera misión, los enemigos que aparecen dentro de los muros de la posada son un total de <strong>nueve orcos</strong>: de los cuales ocho pertenecen al nivel uno y uno actúa en función de jefe militar de la invasión con nivel dos.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-amber-50 p-4 rounded-lg border border-amber-900/20 space-y-2">
+                <div class="flex justify-between items-center border-b border-amber-900/10 pb-1">
+                  <span class="font-medieval font-bold text-amber-950 text-sm">⚔️ Guerreros Orcos (x8)</span>
+                  <span class="px-2 py-0.5 text-[10px] font-bold bg-amber-900/10 text-amber-950 rounded uppercase">Nivel 1</span>
+                </div>
+                <p class="text-xs text-stone-700 italic">Tropas básicas desplegadas por las diferentes estancias de la taberna.</p>
+                <table class="w-full text-xs text-left mt-2 border-collapse">
+                  <tbody>
+                    <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Ataque:</td><td class="py-1 font-bold text-stone-900">3 Dados de Combate</td></tr>
+                    <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Defensa:</td><td class="py-1 font-bold text-stone-900">2 Dados de Combate</td></tr>
+                    <tr><td class="py-1 font-semibold text-stone-600">Cuerpo (Salud):</td><td class="py-1 font-bold text-red-800">1 Punto de Cuerpo</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="bg-red-50 p-4 rounded-lg border border-red-900/20 space-y-2">
+                <div class="flex justify-between items-center border-b border-red-900/10 pb-1">
+                  <span class="font-medieval font-bold text-red-950 text-sm">🏆 Jefe de la Invasión (x1)</span>
+                  <span class="px-2 py-0.5 text-[10px] font-bold bg-red-900/10 text-red-950 rounded uppercase">Nivel 2</span>
+                </div>
+                <p class="text-xs text-stone-700 italic">Ubicado de forma estratégica coordinando el saqueo dentro del local.</p>
+                <table class="w-full text-xs text-left mt-2 border-collapse">
+                  <tbody>
+                    <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Ataque:</td><td class="py-1 font-bold text-stone-900">4 Dados de Combate</td></tr>
+                    <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Defensa:</td><td class="py-1 font-bold text-stone-900">3 Dados de Combate</td></tr>
+                    <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Cuerpo (Salud):</td><td class="py-1 font-bold text-red-800">Al menos 2 Puntos de Cuerpo</td></tr>
+                    <tr><td class="py-1 font-semibold text-stone-600">Equipo Especial:</td><td class="py-1 font-bold text-amber-900">Maza de Orco</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="p-3 bg-red-950/5 rounded-lg border-l-4 border-red-800 text-xs text-stone-800 space-y-1">
+              <span class="font-medieval font-bold text-red-900 uppercase tracking-wide block">🔨 Habilidad de Arma: Impacto Demoledor</span>
+              <p class="leading-relaxed">
+                La Maza de Orco que porta el jefe dispone de una habilidad especial. Si al atacar salen <strong>tres o más calaveras</strong> en la tirada de dados de combate, el golpe resulta tan brutal que reduce inmediatamente un <strong>veinticinco por ciento (25%) la durabilidad máxima</strong> de la armadura o escudo del jugador objetivo. Si el héroe defensor no dispone de protección física equipada, queda automáticamente <strong>Aturdido</strong>.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-amber-900/5 p-4 rounded border border-amber-900/20 text-xs space-y-2 text-stone-800">
+            <span class="font-medieval font-bold text-amber-950 uppercase block">📍 Distribución de la Guarnición en la Taberna:</span>
+            <p>Para dirigir correctamente el avance en solitario, se aconseja organizar a los ocho guerreros orcos estándar repartidos por las diferentes estancias que muestran los mapas tacticos (Sótano, Planta Baja y Planta Alta) resguardando los accesos clave a las cocinas y las celdas de los aliados confiscados.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="tab-ubicaciones" class="tab-content hidden">
+      <div class="parchment rounded-lg p-6 md:p-10 text-stone-900 max-w-5xl mx-auto space-y-6">
+        <div class="text-center border-b border-amber-900/20 pb-4">
+          <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide">Códice de Geografía de Aegium</h2>
+          <p class="font-medieval text-amber-800 text-sm mt-1">Ubicaciones activas y cartografía táctica original sin recortes</p>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-amber-900/5 p-4 rounded border border-amber-900/20">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">📍</span>
+            <div>
+              <h3 class="font-medieval text-amber-950 text-lg">La Taberna de Helmet</h3>
+              <p class="text-xs text-stone-600">Zonas de Campaña &bull; Asentamiento de Hamlet</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-1 bg-amber-950/20 p-1 rounded border border-amber-900/30 w-full md:w-auto">
+            <button onclick="selectFloor('basement')" id="btn-floor-basement" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medieval tracking-wider uppercase rounded transition-all bg-amber-900/20 text-amber-950 hover:bg-amber-900/30">
+              💀 Sótano / Almacén
+            </button>
+            <button onclick="selectFloor('ground')" id="btn-floor-ground" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medieval tracking-wider uppercase rounded transition-all bg-amber-955/80 text-amber-100 font-bold shadow-sm">
+              🍺 Planta Baja
+            </button>
+            <button onclick="selectFloor('upper')" id="btn-floor-upper" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medieval tracking-wider uppercase rounded transition-all bg-amber-900/20 text-amber-950 hover:bg-amber-900/30">
+              🛌 Planta Alta
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-7 bg-amber-950/20 p-4 rounded-lg border border-amber-900/30 flex flex-col items-center justify-center relative shadow-inner min-h-[350px]">
+            <div class="map-frame rounded-md overflow-hidden w-full max-w-[420px] aspect-square relative bg-stone-950 cursor-zoom-in" onclick="openMapLightbox()" title="Hacer clic para ampliar mapa a pantalla completa">
+              <img id="img-basement" src="1000257799.jpg" onerror="this.src='1000257799.jpg'" alt="[Mapa del Sótano]" class="map-image w-full h-full object-contain hidden">
+              <img id="img-ground" src="1000257800.jpg" onerror="this.src='1000257800.jpg'" alt="[Mapa de la Planta Baja]" class="map-image w-full h-full object-contain">
+              <img id="img-upper" src="1000257802.jpg" onerror="this.src='1000257802.jpg'" alt="[Mapa de la Planta Alta]" class="map-image w-full h-full object-contain hidden">
+              
+              <div class="absolute bottom-2 right-2 bg-black/75 text-amber-400 p-1.5 rounded-full pointer-events-none text-xs flex items-center gap-1 font-medieval shadow-md border border-amber-900/30">
+                <span>🔍</span> Ampliar
+              </div>
+            </div>
+
+            <div class="mt-4 w-full max-w-[420px] bg-amber-950/5 p-3 rounded border border-amber-900/15 text-center">
+              <p class="text-[10px] text-amber-950/80 mb-2 font-semibold">⚠️ ¿Rutas bloqueadas en local? Vincula tus imágenes aquí:</p>
+              <div class="flex flex-wrap gap-2 justify-center">
+                <label class="px-2 py-1 bg-amber-900/20 hover:bg-amber-900/30 border border-amber-900/40 text-stone-950 rounded cursor-pointer text-[10px] font-medieval transition-colors">
+                  🔗 Sótano
+                  <input type="file" accept="image/*" class="hidden" onchange="loadLocalMap(this, 'basement')">
+                </label>
+                <label class="px-2 py-1 bg-amber-900/20 hover:bg-amber-900/30 border border-amber-900/40 text-stone-950 rounded cursor-pointer text-[10px] font-medieval transition-colors">
+                  🔗 P. Baja
+                  <input type="file" accept="image/*" class="hidden" onchange="loadLocalMap(this, 'ground')">
+                </label>
+                <label class="px-2 py-1 bg-amber-900/20 hover:bg-amber-900/30 border border-amber-900/40 text-stone-950 rounded cursor-pointer text-[10px] font-medieval transition-colors">
+                  🔗 P. Alta
+                  <input type="file" accept="image/*" class="hidden" onchange="loadLocalMap(this, 'upper')">
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <div class="bg-amber-900/10 p-4 rounded-lg border border-amber-900/20 space-y-2">
+              <h4 class="font-medieval text-amber-950 text-xs font-bold uppercase tracking-wider">🔍 Puntos de Interés:</h4>
+              <div id="room-buttons-container" class="grid grid-cols-2 gap-2"></div>
+            </div>
+
+            <div class="bg-amber-900/5 p-5 rounded-lg border border-amber-900/25 space-y-4 min-h-[220px]">
+              <div class="border-b border-amber-900/10 pb-2">
+                <span id="room-badge" class="px-2 py-0.5 text-[10px] font-medieval tracking-widest uppercase bg-amber-900/20 text-amber-950 rounded">Planta Baja</span>
+                <h4 id="room-title" class="font-cinzel text-lg text-amber-950 font-bold mt-1">Selecciona una estancia</h4>
+                <p id="room-subtitle" class="text-xs text-stone-600 italic">Explora la geografía de la misión.</p>
+              </div>
+
+              <div class="text-sm text-stone-800 space-y-3 leading-relaxed">
+                <div id="room-desc">
+                  Actualmente te encuentras en el asentamiento de **Hamlet**, listos para librar la primera escaramuza defensiva en la **Taberna de Helmet**. Utiliza el panel para ver plantas y sus estancias con notas del Master.
+                </div>
+                <div id="room-secrets-box" class="hidden bg-amber-900/10 p-3 rounded border border-amber-900/15 space-y-1.5">
+                  <h5 class="font-medieval text-xs text-amber-900 uppercase font-bold tracking-wider">👁️ Secretos del DM:</h5>
+                  <ul id="room-secrets" class="text-xs list-disc pl-4 text-stone-900 space-y-1"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-herramientas" class="tab-content hidden">
+      <div class="parchment rounded-lg p-6 md:p-10 text-stone-900 max-w-4xl mx-auto space-y-8">
+        <div class="text-center border-b border-amber-900/20 pb-4">
+          <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide">La Mesa del Director de Juego</h2>
+          <p class="font-medieval text-amber-800 text-sm mt-1">Calculadoras de soporte interactivo para agilizar la sesión</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-amber-900/5 p-5 rounded border border-amber-900/20 space-y-4">
+            <h3 class="font-medieval text-amber-950 text-xl border-b border-amber-900/10 pb-2 flex items-center gap-2">
+🍖 Calculador de Logística y Viaje
+            </h3>
+            <div class="space-y-3">
+              <div>
+                <label class="block text-xs font-semibold uppercase text-stone-700 mb-1">Días de viaje (o hexágonos):</label>
+                <input id="travel-days" type="number" min="1" value="3" oninput="calculateTravel()" class="w-full bg-amber-50/70 border border-amber-900/30 rounded p-2 text-stone-900 text-center font-bold focus:outline-none">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold uppercase text-stone-700 mb-1">Raciones de comida en inventario:</label>
+                <input id="food-rations" type="number" min="0" value="6" oninput="calculateTravel()" class="w-full bg-amber-50/70 border border-amber-900/30 rounded p-2 text-stone-900 text-center font-bold focus:outline-none">
+              </div>
+              <div class="p-3 bg-amber-100/50 rounded text-xs space-y-2 text-stone-800">
+                <div class="flex justify-between border-b border-amber-900/10 pb-1">
+                  <span>Comida Requerida (2 por día):</span>
+                  <span id="food-needed" class="font-bold">6 raciones</span>
+                </div>
+                <div class="flex justify-between border-b border-amber-900/10 pb-1">
+                  <span>Balance de comida:</span>
+                  <span id="food-balance" class="font-bold text-green-800">Suficiente</span>
+                </div>
+                <div class="flex justify-between border-b border-amber-900/10 pb-1">
+                  <span>Puntos de Cuerpo perdidos (HP):</span>
+                  <span id="hp-lost" class="font-bold text-red-700">0 HP</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Puntos Mentales perdidos (MP):</span>
+                  <span id="mp-lost" class="font-bold text-purple-800">0 MP</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-amber-900/5 p-5 rounded border border-amber-900/20 space-y-4">
+            <h3 class="font-medieval text-amber-950 text-xl border-b border-amber-900/10 pb-2 flex items-center gap-2">
+              🛡️ Calculador de Desgaste de Equipo
+            </h3>
+            <div class="space-y-3">
+              <div>
+                <label class="block text-xs font-semibold uppercase text-stone-700 mb-1">Atributo base del Equipo (Dados):</label>
+                <select id="item-base" onchange="calculateDurability()" class="w-full bg-amber-50/70 border border-amber-900/30 rounded p-2 text-stone-900 text-center font-bold focus:outline-none">
+                  <option value="1">1 Dado (Daga / Herramienta)</option>
+                  <option value="2" selected>2 Dados (Espada Corta / Armadura Cuero)</option>
+                  <option value="3">3 Dados (Espada Ancha / Escudo)</option>
+                  <option value="4">4 Dados (Espada de Combate)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold uppercase text-stone-700 mb-1">Durabilidad actual de la pieza:</label>
+                <div class="flex items-center gap-3">
+                  <input id="durability-slider" type="range" min="0" max="100" value="100" oninput="updateDurabilitySlider(this.value)" class="w-full accent-amber-900">
+                  <span id="durability-percent" class="font-bold text-sm text-amber-950 min-w-[45px] text-right">100%</span>
+                </div>
+              </div>
+              <div class="p-3 bg-amber-100/50 rounded text-xs space-y-2 text-stone-800">
+                <div class="flex justify-between border-b border-amber-900/10 pb-1">
+                  <span>Estado de la pieza:</span>
+                  <span id="item-status" class="font-bold text-green-800">Excelente</span>
+                </div>
+                <div class="flex justify-between border-b border-amber-900/10 pb-1">
+                  <span>Penalizador Aplicado:</span>
+                  <span id="item-penalty" class="font-bold text-stone-700">Sin penalización</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Dados utilizables tras desgaste:</span>
+                  <span id="final-dice" class="font-bold text-amber-950 text-base">2 Dados</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-amber-900/5 p-5 rounded border border-amber-900/20 space-y-4 md:col-span-2">
+            <h3 class="font-medieval text-amber-950 text-xl border-b border-amber-900/10 pb-2 flex items-center gap-2">
+              💀 Simulador de Dados HeroQuest - Ataque de Maza
+            </h3>
+            
+            <div class="flex flex-col md:flex-row items-center justify-around gap-6 py-2">
+              <div class="space-y-3 text-center">
+                <div class="flex gap-2 justify-center" id="hq-dice-pool">
+                  <div class="hq-die bg-amber-50 text-amber-950 border-amber-900/50">💀</div>
+                  <div class="hq-die bg-amber-50 text-amber-950 border-amber-900/50">💀</div>
+                  <div class="hq-die bg-amber-50 text-amber-950 border-amber-900/50">🛡️</div>
+                </div>
+                <div class="flex justify-center gap-3">
+                  <button onclick="rollHQDice(3)" class="px-3 py-1.5 bg-amber-900/20 hover:bg-amber-900/30 text-amber-950 border border-amber-900/40 rounded font-medieval text-xs transition">
+                    Tirar 3 dados (Base Orco)
+                  </button>
+                  <button onclick="rollHQDice(4)" class="px-3 py-1.5 bg-red-950 text-red-100 border border-red-800 rounded font-medieval text-xs transition">
+                    Tirar 4 dados (Jefe Nivel 2)
+                  </button>
+                </div>
+              </div>
+
+              <div class="w-full max-w-xs space-y-2 bg-amber-100/50 p-4 rounded border border-amber-900/25">
+                <div class="flex justify-between text-xs border-b border-amber-900/10 pb-1">
+                  <span>Calaveras obtenidas:</span>
+                  <span id="hq-skulls-count" class="font-bold text-red-900">0 Calaveras</span>
+                </div>
+                <div class="flex justify-between text-xs border-b border-amber-900/10 pb-1">
+                  <span>Daño potencial:</span>
+                  <span id="hq-damage-potential" class="font-bold">0 Daño</span>
+                </div>
+                <div class="p-2 rounded text-center text-xs font-bold" id="hq-trigger-status" style="background-color: rgba(139, 90, 43, 0.1);">
+                  Verifica el Impacto Demoledor con una tirada.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-amber-900/5 p-5 rounded border border-amber-900/20 space-y-4 md:col-span-2 text-center">
+            <h3 class="font-medieval text-amber-950 text-xl border-b border-amber-900/10 pb-2">
+              🎲 Oráculo de Aegium (Acciones y Negociación D20)
+            </h3>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6 py-4">
+              <div class="space-y-2">
+                <button onclick="rollD20()" class="w-24 h-24 bg-amber-950 hover:bg-amber-900 text-amber-100 rounded-lg flex items-center justify-center font-medieval text-4xl shadow-lg border border-amber-800 transition active:scale-95">
+                  <span id="d20-result">?</span>
+                </button>
+                <p class="text-xs text-amber-900 font-semibold uppercase">Tocar dado</p>
+              </div>
+
+              <div class="space-y-3 text-left w-full max-w-xs">
+                <div>
+                  <label class="block text-xs font-semibold uppercase text-stone-700 mb-1">Dificultad marcada por DM:</label>
+                  <select id="roll-dc" class="w-full bg-amber-50/70 border border-amber-900/30 rounded p-1.5 text-stone-900 text-sm font-bold focus:outline-none">
+                    <option value="5">Fácil (CD 5)</option>
+                    <option value="10" selected>Común (CD 10)</option>
+                    <option value="15">Complejo (CD 15)</option>
+                    <option value="20">Épico (CD 20)</option>
+                  </select>
+                </div>
+
+                <div id="roll-status-box" class="p-3 rounded text-sm text-center font-medium bg-amber-950/5 text-stone-700 border border-amber-900/10">
+                  Establece la CD e interactúa con el entorno.
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-amber-900/10 space-y-2 text-left">
+                  <span class="font-medieval font-bold text-amber-950 text-xs uppercase tracking-wide flex items-center gap-1">
+                    📜 Guía del Oráculo (Referencia DM)
+                  </span>
+                  <p class="text-stone-700 text-xs font-body leading-relaxed italic">
+                    Usa el d20 para resolver acciones ambientales, registrar habitaciones o negociar. Modifica la CD según la complejidad de la situación.
+                  </p>
+                  
+                  <div class="bg-amber-50/60 p-2.5 rounded border border-amber-900/10 text-xs font-sans space-y-1 text-stone-800">
+                    <div class="flex justify-between border-b border-stone-200/60 pb-0.5">
+                      <span class="font-bold text-amber-950">🎯 Pifia (1) / Crítico (20):</span>
+                      <span class="italic text-stone-600">Efectos automáticos.</span>
+                    </div>
+                    <div class="flex justify-between border-b border-stone-200/60 py-0.5">
+                      <span>🟢 **CD 10 (Común):** Forzar cerradura.</span>
+                    </div>
+                    <div class="flex justify-between border-b border-stone-200/60 py-0.5">
+                      <span>🟡 **CD 14 (Desafío):** Buscar secretos.</span>
+                    </div>
+                    <div class="flex justify-between py-0.5">
+                      <span>🔴 **CD 15+ (Épico):** Escotilla oculta.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-amber-900/20 space-y-2 text-left">
+                  <div class="flex justify-between items-center">
+                    <span class="font-medieval font-bold text-amber-950 text-xs uppercase tracking-wide flex items-center gap-1">
+                      📜 Registro de Augurios
+                    </span>
+                    <button onclick="clearD20History()" class="text-[10px] font-sans px-2 py-0.5 bg-stone-200 hover:bg-stone-300 text-stone-700 rounded border border-stone-300 transition-all">
+                      🗑️ Limpiar
+                    </button>
+                  </div>
+                  
+                  <div id="d20-log-container" class="bg-amber-950/5 max-h-32 overflow-y-auto p-2 rounded border border-amber-900/10 font-sans text-xs space-y-1.5 text-stone-700 italic">
+                    <div id="d20-log-empty" class="text-center py-1 text-stone-400">No se han registrado tiradas en esta sesión.</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="map-lightbox" class="fixed inset-0 bg-black/95 z-50 hidden flex flex-col justify-between p-4" onclick="closeMapLightbox()">
+    <div class="flex justify-between items-center text-amber-100 p-2 border-b border-amber-900/30 bg-stone-950/80 rounded">
+      <span class="font-cinzel text-sm font-bold tracking-wider" id="lightbox-title">Visualizando Mapa</span>
+      <button class="px-3 py-1 bg-red-950 text-red-100 font-medieval border border-red-800 rounded text-xs">✕ Cerrar</button>
+    </div>
+    <div class="flex-grow flex items-center justify-center overflow-auto p-4">
+      <img id="lightbox-img" src="" alt="[Ampliación]" class="max-w-full max-h-[80vh] object-contain rounded-md shadow-2xl border border-amber-900/40">
+    </div>
+  </div>
+
+  <div id="notification-toast" class="fixed bottom-6 right-6 px-4 py-3 bg-stone-900 border border-amber-700 text-amber-100 rounded shadow-2xl transition duration-300 translate-y-20 opacity-0 pointer-events-none flex items-center gap-2 z-50">
+    <span id="notification-icon">⚔️</span>
+    <span id="notification-text">Notificación</span>
+  </div>
+
+  <footer class="w-full py-4 text-center border-t border-amber-950/40 bg-black/50 text-xs font-cinzel text-amber-700/80">
+    Aegium &copy; 2026 &bull; Pantalla del DM Móvil Completada
+  </footer>
+<!-- FIN PARTE 2 -->
+<!-- ♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍ -->
+
+  <script>
+    const roomDatabase = {
+      "despensa": {
+        floor: "basement", title: "La Despensa de Alimentos", badge: "Sótano", subtitle: "Aprovisionamiento básico",
+        desc: "Estanterías repletas de comida rancia. **Aquí se encuentra encerrado y atado uno de tus aliados.**",
+        secrets: ["Contiene suficiente comida para fabricar hasta 10 Raciones si se saquea.", "Un conducto conecta con la cocina superior."]
+      },
+      "almacen-cajas": {
+        floor: "basement", title: "Almacén de Cajones", badge: "Sótano", subtitle: "Logística secreta",
+        desc: "Cajas cerradas de contrabando. **2 Orcos de Nivel 1 patrullan esta zona destrozándolo todo.**",
+        secrets: ["Si se busca con éxito (CD 14), hay una ganzúa y viales de aceite fino."]
+      },
+      "barricas": {
+        floor: "basement", title: "Reserva de Barriles", badge: "Sótano", subtitle: "Tesoro líquido",
+        desc: "Enormes toneles de hidromiel. Su suelo está pegajoso y huele fuertemente a fermento.",
+        secrets: ["Una barrica vacía esconde un compartimento secreto para mensajes."]
+      },
+      "barra": {
+        floor: "ground", title: "La Barra del Salón", badge: "Planta Baja", subtitle: "Rumores e hidromiel",
+        desc: "Un gran mostrador de roble oscuro. **Un Orco de Nivel 1 se ha quedado profundamente dormido sobre los grifos.**",
+        secrets: ["Bajo la barra hay una ballesta pesada con un virote envenenado listo."]
+      },
+      "cocina": {
+        floor: "ground", title: "La Cocina (Almacén de Armas)", badge: "Planta Baja", subtitle: "Inventario confiscado",
+        desc: "Un horno de piedra apagado. **Aquí los orcos han amontonado vuestro equipamiento confiscado.** Debes llegar aquí para recuperar tus dados normales.",
+        secrets: ["La escotilla oculta desciende directamente al Sótano. Forzarla requiere CD 15."]
+      },
+      "salon": {
+        floor: "ground", title: "Gran Salón Comedor", badge: "Planta Baja", subtitle: "Ocupado por la horda",
+        desc: "Mesas comunales destruidas. **Actualmente hay 3 Orcos de Nivel 1 bebiendo y destrozando el mobiliario.**",
+        secrets: ["Zona de alto peligro para cruzar desarmado. El grupo inicia inconsciente en el suelo de este sector."]
+      },
+      "sala-privada": {
+        floor: "ground", title: "El Salón Noble", badge: "Planta Baja", subtitle: "Despacho del Líder",
+        desc: "Habitación panelada en madera noble. **Aquí se encuentra el Orco de Nivel 2 (Jefe de la Invasión) custodiando a un aliado.**",
+        secrets: ["Los planos sobre la mesa revelan marcas militares sobre Kalla Tors rociadas de peligro."]
+      },
+      "dormitorio-gremio": {
+        floor: "upper", title: "El Barracón del Gremio", badge: "Planta Alta", subtitle: "Punto de Despertar",
+        desc: "Habitaciones sencillas. Aquí despierta tu primer héroe desarmado tras el ataque sorpresa del Heraldo.",
+        secrets: ["Bajo el catre del enano hay una pequeña rata amaestrada capaz de recolectar objetos de metal."]
+      },
+      "dormitorio-sur": {
+        floor: "upper", title: "Dormitorio Común Sur", badge: "Planta Alta", subtitle: "Prisión Provisional",
+        desc: "Habitación de mercaderes. **Aquí yace atado e inconsciente tu segundo aliado.**",
+        secrets: ["Un orco vigila la ventana exterior para evitar fugas hacia el establo."]
+      }
+    };
+
+    let activeFloor = 'ground';
+
+    function loadLocalMap(inputEl, floorId) {
+      if (inputEl.files && inputEl.files[0]) {
+        const localUrl = URL.createObjectURL(inputEl.files[0]);
+        document.getElementById('img-' + floorId).src = localUrl;
+        showToast(`🛡️ Imagen cargada para la planta: ${floorId}`);
+      }
+    }
+
+    function selectFloor(floorId) {
+      activeFloor = floorId;
+      ['basement', 'ground', 'upper'].forEach(f => document.getElementById('img-' + f).classList.add('hidden'));
+      document.getElementById('img-' + floorId).classList.remove('hidden');
+
+      document.querySelectorAll('button[id^="btn-floor-"]').forEach(btn => {
+        btn.className = "flex-1 md:flex-none px-3 py-1.5 text-xs font-medieval tracking-wider uppercase rounded transition-all bg-amber-900/20 text-amber-950 hover:bg-amber-900/30";
+      });
+      document.getElementById('btn-floor-' + floorId).className = "flex-1 md:flex-none px-3 py-1.5 text-xs font-medieval tracking-wider uppercase rounded transition-all bg-amber-955/80 text-amber-100 font-bold shadow-sm";
+
+      generateRoomButtons();
+    }
+
+    function generateRoomButtons() {
+      const container = document.getElementById('room-buttons-container');
+      container.innerHTML = "";
+      Object.keys(roomDatabase).filter(key => roomDatabase[key].floor === activeFloor).forEach(key => {
+        const room = roomDatabase[key];
+        const btn = document.createElement('button');
+        btn.innerText = room.title;
+        btn.className = "px-2 py-1.5 text-[11px] font-medieval border border-amber-900/30 bg-amber-950/5 text-amber-950 rounded text-left truncate";
+        btn.onclick = () => {
+          document.getElementById('room-badge').innerText = room.badge;
+          document.getElementById('room-title').innerText = room.title;
+          document.getElementById('room-subtitle').innerText = room.subtitle;
+          document.getElementById('room-desc').innerHTML = room.desc;
+          
+          const secretsUl = document.getElementById('room-secrets');
+          secretsUl.innerHTML = "";
+          room.secrets.forEach(s => { secretsUl.innerHTML += `<li>${s}</li>`; });
+          document.getElementById('room-secrets-box').classList.remove('hidden');
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function openMapLightbox() {
+      document.getElementById('lightbox-img').src = document.getElementById('img-' + activeFloor).src;
+      document.getElementById('map-lightbox').classList.remove('hidden');
+    }
+    
+    function closeMapLightbox() { 
+      document.getElementById('map-lightbox').classList.add('hidden'); 
+    }
+
+    function copyNarrative() {
+      const text = document.getElementById('narrative-text').innerText;
+      navigator.clipboard.writeText(text);
+      showToast("📜 Relato de campaña copiado.");
+    }
+
+    function showToast(m) {
+      const t = document.getElementById('notification-toast');
+      document.getElementById('notification-text').innerText = m;
+      t.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      setTimeout(() => t.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none'), 2000);
+    }
+
+    function calculateTravel() {
+      const days = parseInt(document.getElementById('travel-days').value) || 0;
+      const food = parseInt(document.getElementById('food-rations').value) || 0;
+      const needed = days * 2;
+      document.getElementById('food-needed').innerText = `${needed} raciones`;
+      
+      const deficit = needed - food;
+      if (deficit > 0) {
+        const hp = Math.ceil(deficit / 2);
+        document.getElementById('food-balance').innerText = `Déficit de ${deficit}`;
+        document.getElementById('food-balance').className = "font-bold text-red-700";
+        document.getElementById('hp-lost').innerText = `${hp} HP`;
+        document.getElementById('mp-lost').innerText = `${Math.floor(hp/2)} MP`;
+      } else {
+        document.getElementById('food-balance').innerText = "Suficiente";
+        document.getElementById('food-balance').className = "font-bold text-green-800";
+        document.getElementById('hp-lost').innerText = "0 HP";
+        document.getElementById('mp-lost').innerText = "0 MP";
+      }
+    }
+
+    function updateDurabilitySlider(val) {
+      document.getElementById('durability-percent').innerText = val + '%';
+      calculateDurability();
+    }
+
+    function calculateDurability() {
+      const base = parseInt(document.getElementById('item-base').value);
+      const dur = parseInt(document.getElementById('durability-slider').value);
+      let status = "Excelente", pText = "Sin penalización", penalty = 0;
+
+      if (dur === 0) { status = "Roto"; pText = "Destruido"; penalty = base; }
+      else if (dur <= 25) { status = "Crítico"; if (base >= 2) { pText = "-2 dados"; penalty = 2; } }
+      else if (dur <= 50) { status = "Desgastado"; if (base >= 2) { pText = "-1 dado"; penalty = 1; } }
+
+      document.getElementById('item-status').innerText = status;
+      document.getElementById('item-penalty').innerText = pText;
+      document.getElementById('final-dice').innerText = `${Math.max(0, base - penalty)} Dados`;
+    }
+
+    function rollHQDice(count) {
+      const pool = document.getElementById('hq-dice-pool');
+      pool.innerHTML = "";
+      const faces = ['💀', '💀', '💀', '🛡️', '🛡️', '😈'];
+      let skulls = 0;
+
+      for(let i=0; i<count; i++) {
+        const res = faces[Math.floor(Math.random()*6)];
+        if(res === '💀') skulls++;
+        pool.innerHTML += `<div class="hq-die bg-amber-50 text-amber-950 border-amber-900/50">${res}</div>`;
+      }
+      document.getElementById('hq-skulls-count').innerText = `${skulls} Calaveras`;
+      document.getElementById('hq-damage-potential').innerText = `${skulls} Daño`;
+      
+      const status = document.getElementById('hq-trigger-status');
+      if (skulls >= 3) {
+        status.innerText = "🚨 ¡IMPACTO DEMOLEDOR! -25% Durabilidad o Aturdido.";
+        status.className = "p-2 rounded text-center text-xs font-bold bg-red-100 text-red-950 border border-red-300";
+      } else {
+        status.innerText = "Ataque regular resuelto.";
+        status.className = "p-2 rounded text-center text-xs font-bold bg-stone-200 text-stone-800";
+      }
+    }
+
+    const DEFAULT_MISIONES = {
+      prologo: { locked: false, status: 'activa' },
+      cap1: { locked: true, status: 'bloqueada' }
+    };
+
+    let misionesEstado = JSON.parse(localStorage.getItem('aegium_misiones_estado')) || DEFAULT_MISIONES;
+
+    function saveMisionesToStorage() {
+      localStorage.setItem('aegium_misiones_estado', JSON.stringify(misionesEstado));
+    }
+
+    function openMissionDetails(missionId) {
+      if (!misionesEstado[missionId]) return;
+      if (misionesEstado[missionId].locked) {
+        showToast("🔒 Esta misión está bloqueada por el DM.");
+        return;
+      }
+      const menu = document.getElementById('misiones-menu');
+      const content = document.getElementById('mission-content-' + missionId);
+      
+      if (menu && content) {
+        menu.classList.remove('block');
+        menu.classList.add('hidden');
+        content.classList.remove('hidden');
+        showToast("⚔️ Desplegando registros tácticos");
+      }
+    }
+
+    function backToMisionesMenu() {
+      const menu = document.getElementById('misiones-menu');
+      if (menu) {
+        menu.classList.remove('hidden');
+        menu.classList.add('block');
+      }
+      Object.keys(misionesEstado).forEach(id => {
+        const content = document.getElementById('mission-content-' + id);
+        if (content) content.classList.add('hidden');
+      });
+    }
+
+    function setMissionLock(id, shouldLock) {
+      if (!misionesEstado[id]) return;
+      
+      misionesEstado[id].locked = shouldLock;
+      if (shouldLock) {
+        misionesEstado[id].status = 'bloqueada';
+      } else if (misionesEstado[id].status === 'bloqueada') {
+        misionesEstado[id].status = 'activa';
+      }
+
+      saveMisionesToStorage(); 
+      updateMissionVisuals(id); 
+      showToast(shouldLock ? `🔒 Misión Bloqueada` : `🔓 Misión Disponible`);
+    }
+
+    function setMissionStatus(id, status) {
+      if (!misionesEstado[id]) return;
+      if (misionesEstado[id].locked) {
+        showToast("⚠️ Desbloquea primero la misión.");
+        return;
+      }
+      
+      misionesEstado[id].status = status;
+      
+      saveMisionesToStorage(); 
+      updateMissionVisuals(id); 
+      showToast(status === 'activa' ? `🔥 Gesta ACTIVA` : `✅ Gesta COMPLETADA`);
+    }
+
+    function updateMissionVisuals(id) {
+      const card = document.getElementById('card-mission-' + id);
+      const clickArea = document.getElementById('click-' + id) || (card ? card.firstElementChild : null); 
+      const icon = document.getElementById('icon-' + id);
+      const badge = document.getElementById('badge-' + id);
+      const title = document.getElementById('title-' + id);
+
+      if (!card) return;
+
+      if (misionesEstado[id].locked) {
+        card.className = "border-2 border-stone-400/40 bg-stone-900/5 rounded-xl p-4 transition-all opacity-50 space-y-3";
+        if (clickArea) clickArea.style.pointerEvents = "none";
+        if (icon) icon.innerText = "🔒";
+        if (badge) {
+          badge.innerText = "Bloqueada";
+          badge.className = "text-[10px] font-medieval font-bold text-stone-600 uppercase tracking-widest bg-stone-950/10 px-2 py-0.5 rounded";
+        }
+        if (title) title.className = "font-cinzel text-xl text-stone-600 font-bold mt-1";
+      } else {
+        card.className = "border-2 border-amber-900/40 bg-amber-900/5 rounded-xl p-4 transition-all space-y-3 shadow-inner";
+        if (clickArea) clickArea.style.pointerEvents = "auto";
+        if (title) title.className = "font-cinzel text-xl text-amber-950 font-bold mt-1 group-hover:text-amber-900 transition-colors";
+
+        if (misionesEstado[id].status === 'activa') {
+          if (icon) icon.innerText = "⚔️";
+          if (badge) {
+            badge.innerText = "Activa";
+            badge.className = "text-[10px] font-medieval font-bold text-red-900 uppercase tracking-widest bg-red-950/10 px-2 py-0.5 rounded";
+          }
+        } else if (misionesEstado[id].status === 'completada') {
+          if (icon) icon.innerText = "✅";
+          if (badge) {
+            badge.innerText = "Completada";
+            badge.className = "text-[10px] font-medieval font-bold text-green-900 uppercase tracking-widest bg-green-950/10 px-2 py-0.5 rounded";
+          }
+        }
+      }
+    }
+
+    let d20History = [];
+
+    function rollD20() {
+      const result = Math.floor(Math.random() * 20) + 1;
+      const dcSelector = document.getElementById('roll-dc');
+      const targetDC = dcSelector ? parseInt(dcSelector.value) : 10;
+      const dcText = dcSelector ? dcSelector.options[dcSelector.selectedIndex].text : "Común (CD 10)";
+      
+      const dieButton = document.querySelector('button[onclick="rollD20()"]');
+      const d20ResultText = document.getElementById('d20-result');
+      
+      if (dieButton) {
+        dieButton.style.transition = "transform 0.3s ease-out";
+        dieButton.style.transform = "rotate(360deg) scale(0.95)";
+        if (d20ResultText) d20ResultText.innerText = "🎲"; 
+        
+        setTimeout(() => {
+          if (d20ResultText) d20ResultText.innerText = result;
+          dieButton.style.transform = "rotate(0deg) scale(1)";
+        }, 300);
+      } else if (d20ResultText) {
+        d20ResultText.innerText = result;
+      }
+
+      let outcome = "";
+      let badgeClass = "";
+      
+      if (result === 20) {
+        outcome = `✨ ¡Éxito Crítico absoluto!`;
+        badgeClass = "bg-green-100 text-green-800 border-green-300 font-bold";
+      } else if (result === 1) {
+        outcome = `💀 Pifia estrépita y nefasta`;
+        badgeClass = "bg-red-100 text-red-800 border-red-300 font-bold";
+      } else if (result >= targetDC) {
+        outcome = `Éxito (${result} vs CD ${targetDC})`;
+        badgeClass = "bg-amber-100 text-amber-900 border-amber-300";
+      } else {
+        outcome = `Fallo (${result} vs CD ${targetDC})`;
+        badgeClass = "bg-stone-200 text-stone-600 border-stone-300";
+      }
+
+      const statusBox = document.getElementById('roll-status-box');
+      if (statusBox) statusBox.innerText = outcome;
+      
+      addRollToHistory(result, dcText, outcome, badgeClass);
+    }
+
+    function addRollToHistory(roll, dcText, outcome, badgeClass) {
+      const container = document.getElementById('d20-log-container');
+      if (!container) return; 
+      
+      const emptyMsg = document.getElementById('d20-log-empty');
+      if (emptyMsg) emptyMsg.remove();
+      
+      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const row = document.createElement('div');
+      row.className = `flex justify-between items-center p-1.5 rounded border border-dashed text-stone-800 ${badgeClass} mb-1`;
+      row.innerHTML = `
+        <span>⏱️ <strong>${timeStr}</strong> — Sacaste un <strong>${roll}</strong> [${dcText}]</span>
+        <span class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-white/60 border border-black/5">${roll === 20 ? 'CRÍTICO' : roll === 1 ? 'PIFIA' : outcome.includes('Éxito') ? 'ÉXITO' : 'FALLO'}</span>
+      `;
+      
+      container.insertBefore(row, container.firstChild);
+    }
+
+    function clearD20History() {
+      const container = document.getElementById('d20-log-container');
+      if (container) {
+        container.innerHTML = '<div id="d20-log-empty" class="text-center py-1 text-stone-400">No se han registrado tiradas in esta sesión.</div>';
+      }
+      showToast("🗑️ Registro vaciado");
+    }
+
+    function switchTab(tabId) {
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => {
+        content.classList.add('hidden');
+        content.classList.remove('block');
+      });
+
+      const targetTab = document.getElementById('tab-' + tabId);
+      if (targetTab) {
+        targetTab.classList.remove('hidden');
+        targetTab.classList.add('block');
+      }
+
+      const navButtons = document.querySelectorAll('button[id^="btn-"]');
+      navButtons.forEach(btn => {
+        btn.classList.remove('active-tab');
+      });
+
+      const activeButton = document.getElementById('btn-' + tabId);
+      if (activeButton) {
+        activeButton.classList.add('active-tab');
+      }
+
+      if (tabId === 'misiones') {
+        const menu = document.getElementById('misiones-menu');
+        if (menu) {
+          menu.classList.remove('hidden');
+          menu.classList.add('block');
+        }
+        Object.keys(misionesEstado).forEach(id => {
+          const content = document.getElementById('mission-content-' + id);
+          if (content) content.classList.add('hidden');
+        });
+      }
+
+      showToast("Sección: " + tabId.toUpperCase());
+    }
+
+    window.onload = function() {
+      if (typeof selectFloor === "function") {
+        selectFloor('ground');
+      }
+      
+      Object.keys(misionesEstado).forEach(id => {
+        updateMissionVisuals(id);
+      });
+    };
+  </script>
+</body>
+</html>
