@@ -867,11 +867,34 @@
       cap1: { locked: true, status: 'bloqueada' }
     };
 
-    let misionesEstado = JSON.parse(localStorage.getItem('aegium_misiones_estado')) || DEFAULT_MISIONES;
+    let misionesEstado = {};
+
+    try {
+      const dataLocal = localStorage.getItem('aegium_misiones_estado');
+      if (dataLocal) {
+        // 1. Extracción segura
+        const parsedData = JSON.parse(dataLocal);
+        // 2. Copia profunda para evitar mutar referencias
+        misionesEstado = JSON.parse(JSON.stringify(DEFAULT_MISIONES));
+        
+        // 3. Fusión controlada: Respeta las actualizaciones del DM
+        for (let key in parsedData) {
+          if (misionesEstado[key]) {
+            misionesEstado[key] = { ...misionesEstado[key], ...parsedData[key] };
+          }
+        }
+      } else {
+        misionesEstado = JSON.parse(JSON.stringify(DEFAULT_MISIONES));
+      }
+    } catch (error) {
+      console.warn("Memoria corrupta detectada. Restaurando variables iniciales.", error);
+      misionesEstado = JSON.parse(JSON.stringify(DEFAULT_MISIONES));
+    }
 
     function saveMisionesToStorage() {
       localStorage.setItem('aegium_misiones_estado', JSON.stringify(misionesEstado));
     }
+
 
     function openMissionDetails(missionId) {
       if (!misionesEstado[missionId]) return;
@@ -1081,7 +1104,7 @@
       showToast("Sección: " + tabId.toUpperCase());
     }
 
-    window.onload = function() {
+    document.addEventListener('DOMContentLoaded', function() {
       if (typeof selectFloor === "function") {
         selectFloor('ground');
       }
@@ -1089,7 +1112,8 @@
       Object.keys(misionesEstado).forEach(id => {
         updateMissionVisuals(id);
       });
-    };
+    });
+
   </script>
 </body>
 </html>
