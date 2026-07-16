@@ -374,41 +374,110 @@
     </div>
 
     <!-- 3. Contenido Detallado: Capitulo 1 -->
-    <div id="mission-content-cap1" class="hidden space-y-6">
-      <div class="flex justify-between items-center border-b border-amber-900/20 pb-2">
-        <button onclick="backToMisionesMenu()" class="px-3 py-1 bg-amber-950/10 hover:bg-amber-900/20 border border-amber-900/30 text-amber-950 font-medieval text-xs rounded transition-all">↩️ Volver al Listado</button>
+<div id="mission-content-cap1" class="hidden space-y-6">
+  <!-- Botón de retorno -->
+  <div class="flex justify-between items-center border-b border-amber-900/20 pb-2">
+    <button onclick="backToMisionesMenu()" class="px-3 py-1 bg-amber-950/10 hover:bg-amber-900/20 border border-amber-900/30 text-amber-950 font-medieval text-xs rounded transition-all">
+      ↩️ Volver al Listado
+    </button>
+    <span class="text-red-900 font-medieval font-bold text-xs uppercase tracking-widest bg-red-950/10 px-3 py-1 rounded">Capítulo I</span>
+  </div>
+
+  <!-- Encabezado -->
+  <div class="text-center">
+    <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide mt-2">Kalla Tors: El Matadero Silencioso</h2>
+    <p class="font-medieval text-amber-800 text-sm mt-1">La verdad oculta tras el Cataclismo</p>
+  </div>
+
+  <!-- Parte I y II -->
+  <div class="bg-amber-950/5 p-5 rounded border border-amber-900/20 text-sm text-stone-800 leading-relaxed space-y-3">
+    <h3 class="font-medieval text-amber-900 text-base font-bold uppercase tracking-wider">📜 Parte I y II: El Amanecer y el Rumor</h3>
+    <p class="italic">"El asalto orco ha terminado. El humo de las antorchas se mezcla con el vapor que emana de los cuerpos sudorosos y las heridas recién vendadas. Edric, el posadero, os agradece la defensa: 'Hamlet sigue en pie gracias a vosotros'."</p>
+    <p class="italic">"Un trampero con quemaduras violáceas os advierte: 'He visto las ruinas de Kalla Tors. No es un campamento; es un matadero silencioso. Hay un alquimista allá abajo despertando algo sepultado desde el Cataclismo'."</p>
+  </div>
+
+  <!-- Parte III y IV: Logística y Camino -->
+  <div class="bg-amber-900/5 p-5 rounded-lg border border-amber-900/20 space-y-3">
+    <h3 class="font-medieval text-amber-900 text-base font-bold uppercase tracking-wider">⚔️ Preparación y Camino</h3>
+    <p class="text-sm text-stone-800"><strong>Gestión Logística:</strong> Tenéis acceso total a la despensa municipal. Calculad raciones y distribuid el peso antes de partir. El herrero permite afilar vuestras hojas una última vez.</p>
+    <p class="text-sm text-stone-800 italic">"La salida de Hamlet es silenciosa. A lo lejos, las ruinas de Kalla Tors se alzan como colmillos rotos. No hay pájaros, solo un leve retumbar bajo vuestros pies."</p>
+  </div>
+
+  <!-- Sección Enemigos -->
+  <div class="bg-red-950/5 p-5 rounded border border-red-900/20 space-y-4">
+    <h3 class="font-medieval text-red-900 text-lg font-bold border-b border-red-900/20 pb-2">👾 Bestiario y Habilidades</h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Sanguijuela -->
+      <div class="bg-amber-50 p-3 rounded border border-amber-900/10">
+        <span class="font-bold text-amber-950">Sanguijuela (Nv 1)</span>
+        <p class="text-xs italic">Bloqueo: Alta velocidad (8) para interceptar.</p>
       </div>
-      <div class="text-center border-b border-amber-900/20 pb-4">
-        <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide">Kalla Tors: El Matadero Silencioso</h2>
-        <p class="font-medieval text-amber-800 text-sm mt-1">La verdad oculta tras el Cataclismo</p>
+      <!-- Filtrador -->
+      <div class="bg-amber-50 p-3 rounded border border-amber-900/10">
+        <span class="font-bold text-amber-950">Filtrador (Nv 2)</span>
+        <p class="text-xs italic">Ataque Diagonal y Reacción (Ataque de Oportunidad).</p>
       </div>
-      <div class="bg-amber-950/5 p-5 rounded-lg border border-amber-900/20 space-y-3">
-        <h3 class="font-medieval text-red-900 text-base font-bold">Introducción</h3>
-        <p class="text-stone-800 text-sm">El asalto ha terminado. Edric os agradece la defensa de Hamlet, pero un trampero con quemaduras violáceas os advierte: Kalla Tors no es un campamento, es un matadero. Algo procesa a los vivos en sus profundidades.</p>
+      <!-- Amalgama -->
+      <div class="bg-amber-50 p-3 rounded border border-amber-900/10">
+        <span class="font-bold text-amber-950">Amalgama (Nv 3)</span>
+        <p class="text-xs italic">Piel Blindada (-1 daño). Castiga fallos críticos (Durabilidad).</p>
       </div>
-      <div class="bg-amber-950/5 p-5 rounded-xl border border-amber-900/20 space-y-4">
-        <h3 class="font-medieval text-amber-950 text-lg font-bold">Despliegue y Enemigos</h3>
-        <p class="text-xs text-stone-600">Enemigos: Sanguijuelas (Nv 1, Bloqueo), Filtradores (Nv 2, Ataque Diagonal), Amalgama (Nv 3, Piel Blindada), Alquimista (Jefe, Defensa Rúnica).</p>
-        <div class="grid grid-cols-2 gap-2">
-            <img src="mapa_kalla.jpg" class="w-full h-auto border-2 border-amber-900" alt="Mapa">
-            <img src="enemigos.jpg" class="w-full h-auto border-2 border-amber-900" alt="Enemigos">
-        </div>
-      </div>
-      <div class="bg-amber-950/5 p-5 rounded-lg border border-amber-900/20 space-y-3">
-        <h3 class="font-medieval text-red-900 text-base font-bold">Clímax: La Eclosión</h3>
-        <p class="text-stone-800 text-sm italic">"El huevo explota. Una onda de choque os lanza hacia atrás. Una abominación de piel correosa y ojos con furia antinatural emerge."</p>
-        <div class="p-3 bg-red-950/20 text-xs border border-red-900/30">
-            <p><strong>Dilema:</strong> Muro de piedra (20 HP), Gas (-2 HP/turno), Prisioneros (mueren en 2 turnos).</p>
-        </div>
-      </div>
-      <div class="bg-amber-950/5 p-5 rounded-lg border border-amber-900/20 space-y-3">
-        <h3 class="font-medieval text-amber-950 text-base font-bold">Recompensa</h3>
-        <p class="text-stone-800 text-sm">Si salvan a los prisioneros: 100 oros/jugador, Ficha del Herrero (Reparación gratuita) y llaves de la taberna.</p>
+      <!-- Alquimista -->
+      <div class="bg-red-50 p-3 rounded border border-red-900/10">
+        <span class="font-bold text-red-950">Alquimista (Jefe)</span>
+        <p class="text-xs italic">Defensa Rúnica (Conductos de Sangre). Hechizos: Vórtice, Muro, Drenaje.</p>
       </div>
     </div>
   </div>
-</section>
+
+  <!-- Plantas (Escenarios) -->
+  <div class="space-y-4">
+    <h3 class="font-medieval text-amber-950 text-lg border-b border-amber-900/20 pb-1">🗺️ Exploración de Plantas</h3>
     
+    <div class="bg-amber-950/10 p-4 rounded border border-amber-900/20">
+      <h4 class="font-bold text-amber-900">1ª Planta: Laboratorio</h4>
+      <p class="text-xs text-stone-700">Sanguijuelas ocultas, Filtradores tras muebles y una Amalgama en el recodo.</p>
+    </div>
+    
+    <div class="bg-amber-950/10 p-4 rounded border border-amber-900/20">
+      <h4 class="font-bold text-amber-900">2ª Planta: Nivel de Servicio</h4>
+      <p class="text-xs text-stone-700">Amalgama bloqueando el pasillo central. Filtradores en alcobas laterales.</p>
+    </div>
+
+    <div class="bg-amber-950/10 p-4 rounded border border-amber-900/20">
+      <h4 class="font-bold text-amber-900">3ª Planta: Estudios</h4>
+      <p class="text-xs text-stone-700">Sanguijuelas en comedor. Filtradores registrando documentos. Amalgama patrullando.</p>
+    </div>
+  </div>
+
+  <!-- Clímax y Escena Final -->
+  <div class="bg-red-950/5 p-5 rounded border border-red-900/20 space-y-4">
+    <h3 class="font-medieval text-red-900 text-lg font-bold">⚠️ Clímax: El Ritual y la Eclosión</h3>
+    <p class="text-sm italic">"El huevo negro palpita. Cuando el alquimista cae, el ritual se rompe: el huevo explota lanzando una onda de choque verde. Una abominación de piel correosa y ojos con furia antinatural emerge."</p>
+    
+    <div class="grid grid-cols-2 gap-2">
+        <img src="mapa_kalla.jpg" class="w-full h-auto border-2 border-amber-900" alt="Mapa">
+        <img src="enemigos.jpg" class="w-full h-auto border-2 border-amber-900" alt="Enemigos">
+    </div>
+
+    <div class="p-3 bg-red-950/20 text-xs border border-red-900/30">
+      <p><strong>Mecánicas de Escape:</strong></p>
+      <ul class="list-disc pl-4 space-y-1">
+        <li>Muro de Piedra: 20 HP (3 durabilidad/golpe).</li>
+        <li>Gas Tóxico: 2 daño/turno.</li>
+        <li>Prisioneros: Mueren en 2 turnos si no son liberados.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Recompensa -->
+  <div class="bg-green-950/5 p-5 rounded border border-green-900/20 space-y-2">
+    <h3 class="font-medieval text-green-900 text-base font-bold">🏆 Recompensa</h3>
+    <p class="text-sm">100 Oros por jugador + Ficha del Herrero (Reparación gratuita) + Llaves de la Taberna.</p>
+  </div>
+</div>
+
 
 
 
