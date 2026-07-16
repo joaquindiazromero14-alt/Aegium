@@ -385,7 +385,20 @@
           <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide">Códice de Geografía de Aegium</h2>
           <p class="font-medieval text-amber-800 text-sm mt-1">Ubicaciones activas y cartografía táctica original sin recortes</p>
         </div>
+  <div id="ubicaciones-list" class="space-y-4 mt-6">
+    <div onclick="abrirUbicacion('loc-taberna')" class="p-4 rounded-lg border border-amber-900/30 bg-amber-950/5 cursor-pointer hover:bg-amber-900/10 transition">
+      <h3 class="font-bold text-lg text-amber-950 font-medieval">La Taberna de Hamlet</h3>
+      <p class="text-sm text-stone-700 mt-1">Lugar de descanso, rumores y un sótano con secretos.</p>
+    </div>
+  </div>
 
+  <div id="ubicaciones-details" class="hidden mt-6">
+    <button onclick="volverListadoUbicaciones()" class="mb-6 flex items-center text-amber-900 hover:text-amber-700 font-semibold text-sm">
+      <span class="mr-2">&larr;</span> Volver al listado
+    </button>
+    
+    <div id="loc-taberna" class="location-content hidden">
+      
         <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-amber-900/5 p-4 rounded border border-amber-900/20">
           <div class="flex items-center gap-2">
             <span class="text-2xl">📍</span>
@@ -465,6 +478,19 @@
           </div>
         </div>
       </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+    </div> 
+    </section>
+
+<section id="tab-herramientas" class="tab-content hidden">
+  <div class="parchment rounded-lg p-6 md:p-10...
+
+
+<section id="tab-herramientas" class="tab-content hidden">
+  
     </section>
 
     <section id="tab-herramientas" class="tab-content hidden">
@@ -1114,6 +1140,27 @@
       });
     });
 
-  </script>
+
+    // Lógica de navegación Maestro-Detalle para ubicaciones
+  function abrirUbicacion(idUbicacion) {
+    document.getElementById('ubicaciones-list').classList.add('hidden');
+    document.getElementById('ubicaciones-details').classList.remove('hidden');
+    
+    const todasLasUbicaciones = document.querySelectorAll('.location-content');
+    todasLasUbicaciones.forEach(ubicacion => {
+      ubicacion.classList.add('hidden');
+    });
+    
+    const ubicacionSeleccionada = document.getElementById(idUbicacion);
+    if (ubicacionSeleccionada) {
+      ubicacionSeleccionada.classList.remove('hidden');
+    }
+  }
+
+  function volverListadoUbicaciones() {
+    document.getElementById('ubicaciones-details').classList.add('hidden');
+    document.getElementById('ubicaciones-list').classList.remove('hidden');
+  }
+    </script>
 </body>
 </html>
