@@ -437,50 +437,85 @@
 
 
 
-    <section id="tab-ubicaciones" class="tab-content hidden">
-  <div class="parchment rounded-lg p-6 md:p-10 text-stone-900 max-w-4xl mx-auto space-y-6">
+<section id="tab-ubicaciones" class="tab-content hidden">
+  <div class="parchment rounded-lg p-6 md:p-10 text-stone-900 max-w-5xl mx-auto space-y-6">
     <div class="text-center border-b border-amber-900/20 pb-4">
       <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide">Códice de Geografía de Ae</h2>
       <p class="font-medieval text-amber-800 text-sm mt-1">Ubicaciones activas y cartografía táctica original sin r</p>
     </div>
 
-    <div id="ubicaciones-list" class="space-y-4 mt-6">
-      <div onclick="abrirUbicacion('loc-taberna')" class="p-4 rounded-lg border border-amber-900/30 bg-amber-950/5 cursor-pointer hover:bg-amber-950/10 transition-all">
-        <h3 class="font-bold text-lg text-amber-950 font-medieval">La Taberna de Hamlet</h3>
-        <p class="text-sm text-stone-700 mt-1">Lugar de descanso, rumores y un sótano con secretos.</p>
+    <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-amber-900/5 p-4 rounded border border-amber-900/30">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">📍</span>
       </div>
+      <h3 class="font-medieval text-amber-950 text-lg">La Taberna de Helmet</h3>
+      <p class="text-xs text-stone-600">Zonas de Campaña • Asentamiento de Hamlet</p>
     </div>
 
-    <div id="ubicaciones-details" class="hidden mt-6">
-      <button onclick="volverListadoUbicaciones()" class="mb-6 flex items-center text-amber-900 hover:text-amber-700 font-medieval">
-        <span class="mr-2">&larr;</span> Volver al listado
+    <div class="flex gap-1 bg-amber-950/20 p-1 rounded border border-amber-900/30 w-full md:w-auto mt-4">
+      <button onclick="selectFloor('basement')" id="btn-floor-basement" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medium text-amber-950 bg-amber-200/50 rounded shadow-sm">
+        💀 Sótano / Almacén
       </button>
+      <button onclick="selectFloor('ground')" id="btn-floor-ground" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medium text-stone-700 hover:text-amber-950 transition-colors">
+        🍺 Planta Baja
+      </button>
+      <button onclick="selectFloor('upper')" id="btn-floor-upper" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medium text-stone-700 hover:text-amber-950 transition-colors">
+        🪜 Planta Alta
+      </button>
+    </div>
 
-      <div id="loc-taberna" class="location-content hidden">
-        <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-amber-950/5 p-4 rounded border border-amber-900/20">
-          <div class="flex items-center gap-2">
-            <span class="text-2xl">📍</span>
-            <h3 class="font-medieval text-amber-950 text-lg">La Taberna de Hamlet</h3>
-          </div>
-          <p class="text-xs text-stone-600">Zonas de Campaña • Asentamiento de Hamlet</p>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div class="lg:col-span-7 bg-amber-950/20 p-4 rounded-lg border border-amber-900/30 flex flex-col items-center">
+        <div class="nap-frame rounded-md overflow-hidden w-full max-w-[420px] aspect-square relative bg-stone-950">
+          <img id="img-basement" src="One-Eyed Jax Tavern Level 0.jpg" onerror="this.src='One-Eyed Jax Tavern Level 0.jpg'" class="hidden">
+          <img id="img-ground" src="One-Eyed Jax Tavern Level 1.jpg" onerror="this.src='One-Eyed Jax Tavern Level 1.jpg'" class="block">
+          <img id="img-upper" src="One-Eyed Jax Tavern Level 2.jpg" onerror="this.src='One-Eyed Jax Tavern Level 2.jpg'" class="hidden">
         </div>
-        
-        <div class="flex gap-1 bg-amber-950/20 p-1 rounded border border-amber-900/30 w-full md:w-auto mt-4">
-          <button onclick="selectFloor('basement')" id="btn-floor-basement" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medium text-amber-950 bg-amber-200/50 rounded shadow-sm">
-            💀 Sótano / Almacén
-          </button>
-          <button onclick="selectFloor('ground')" id="btn-floor-ground" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medium text-stone-700 hover:text-amber-950 transition-colors">
-            🍺 Planta Baja
-          </button>
-          <button onclick="selectFloor('upper')" id="btn-floor-upper" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medium text-stone-700 hover:text-amber-950 transition-colors">
-            🪜 Planta Alta
-          </button>
+        <div class="absolute bottom-2 right-2 bg-black/75 text-amber-400 p-1.5 rounded-full pointer-events-none">
+          <span>🔍</span> Ampliar
+        </div>
+
+        <div class="mt-4 w-full max-w-[420px] bg-amber-950/5 p-3 rounded border border-amber-900/15 text-center">
+          <p class="text-[10px] text-amber-950/80 mb-2 font-semibold">⚠️ ¿Rutas bloqueadas en local? Vincula tus imágenes:</p>
+          <div class="flex flex-wrap gap-2 justify-center">
+            <label class="px-2 py-1 bg-amber-900/20 hover:bg-amber-900/30 border border-amber-900/40 text-stone-950 text-xs rounded cursor-pointer">
+              🔗 Sótano <input type="file" accept="image/*" class="hidden" onchange="loadLocalMap(this, 'basement')">
+            </label>
+            <label class="px-2 py-1 bg-amber-900/20 hover:bg-amber-900/30 border border-amber-900/40 text-stone-950 text-xs rounded cursor-pointer">
+              🔗 P. Baja <input type="file" accept="image/*" class="hidden" onchange="loadLocalMap(this, 'ground')">
+            </label>
+            <label class="px-2 py-1 bg-amber-900/20 hover:bg-amber-900/30 border border-amber-900/40 text-stone-950 text-xs rounded cursor-pointer">
+              🔗 P. Alta <input type="file" accept="image/*" class="hidden" onchange="loadLocalMap(this, 'upper')">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 space-y-4">
+        <div class="bg-amber-900/10 p-4 rounded-lg border border-amber-900/20 space-y-2">
+          <h4 class="font-medieval text-amber-950 text-xs font-bold uppercase tracking-wider">🔍 Puntos de Interés:</h4>
+          <div id="room-buttons-container" class="grid grid-cols-2 gap-2"></div>
+        </div>
+
+        <div class="bg-amber-900/5 p-5 rounded-lg border border-amber-900/25 space-y-4 min-h-[220px]">
+          <div class="border-b border-amber-900/10 pb-2">
+            <span id="room-badge" class="px-2 py-0.5 text-[10px] font-medieval tracking-widest uppercase bg-amber-900/10 text-amber-950 rounded"></span>
+            <h4 id="room-title" class="font-cinzel text-lg text-amber-950 font-bold mt-1">Selecciona una estancia</h4>
+            <p id="room-subtitle" class="text-xs text-stone-600 italic">Explora la geografía de la misión.</p>
+          </div>
+          <div class="text-sm text-stone-800 space-y-3 leading-relaxed">
+            <div id="room-desc">Actualmente te encuentras en el asentamiento de **Hamlet**, listos para librar la primera escaramuza defensiva en la **Taberna de Helmet**. Utiliza el panel para ver plantas y sus estancias con notas del Master.</div>
+            <div id="room-secrets-box" class="hidden bg-amber-900/10 p-3 rounded border border-amber-900/15 space-y-1.5">
+              <h5 class="font-medieval text-xs text-amber-900 uppercase font-bold tracking-wider">👁️ Secretos del DM:</h5>
+              <ul id="room-secrets" class="text-xs list-disc pl-4 text-stone-900 space-y-1"></ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-    
+
 
 <section id="tab-herramientas" class="tab-content hidden">
   
