@@ -413,57 +413,76 @@ A lo lejos, las ruinas de Kalla Tors se alzan sobre el horizonte como colmillos 
   </div>
 
   <!-- MECÁNICAS Y ENEMIGOS -->
-  <div class="bg-red-950/5 p-6 rounded-lg border border-red-900/20 space-y-6">
-    <h3 class="font-medieval text-red-900 text-xl font-bold border-b border-red-900/20 pb-2">👾 Bestiario y Habilidades</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="bg-stone-50 p-4 rounded border border-stone-200 shadow-sm">
-            <h4 class="font-bold text-amber-950 mb-1">Sanguijuela (Nv 1)</h4>
-            <p class="text-xs italic text-stone-600"><strong>Función:</strong> Carne de cañón.</p>
-            <p class="text-xs text-stone-800 mt-1">Alta velocidad (8) para bloquear casillas y frenar el avance.</p>
-        </div>
-        <div class="bg-stone-50 p-4 rounded border border-stone-200 shadow-sm">
-            <h4 class="font-bold text-amber-950 mb-1">Filtrador (Nv 2)</h4>
-            <p class="text-xs italic text-stone-600"><strong>Especial:</strong> Ataque Diagonal (sin estar adyacente).</p>
-            <p class="text-xs text-stone-800 mt-1"><strong>Reacción:</strong> Ataque de Oportunidad que reduce a la mitad el movimiento del héroe.</p>
-        </div>
-        <div class="bg-stone-50 p-4 rounded border border-stone-200 shadow-sm">
-            <h4 class="font-bold text-amber-950 mb-1">Amalgama de Carne (Nv 3)</h4>
-            <p class="text-xs italic text-stone-600"><strong>Pasiva:</strong> Piel Blindada (-1 daño).</p>
-            <p class="text-xs text-stone-800 mt-1"><strong>Desgaste:</strong> Un fallo crítico del héroe reduce 1 punto de durabilidad al arma.</p>
-        </div>
-        <div class="bg-red-100 p-4 rounded border border-red-200 shadow-sm">
-            <h4 class="font-bold text-red-950 mb-1">Alquimista (Jefe)</h4>
-            <p class="text-xs italic text-red-800"><strong>Defensa Rúnica:</strong> Ignora 1 punto de daño mientras los 2 Conductos de Sangre estén intactos.</p>
-            <p class="text-xs text-red-950 mt-1"><strong>Hechizos (4 PM):</strong> Vórtice Alquímico (1 PM), Muro de Cristal (2 PM), Drenaje Vital (1 PM).</p>
-        </div>
-    </div>
-  </div>
+<div class="bg-amber-950/5 p-5 rounded border border-amber-900/20 text-sm text-stone-800 leading-relaxed space-y-4">
+  <h3 class="font-medieval text-amber-950 text-lg border-b border-amber-900/20 pb-1">👾 Despliegue de Fuerzas de Kalla Tors</h3>
+  <p class="text-sm text-stone-800">
+    En esta misión, las fuerzas alquímicas custodian las ruinas. Cada criatura cumple un rol táctico específico diseñado para interceptar, desgastar y confundir a los héroes dentro de los niveles del complejo.
+  </p>
 
-  <!-- EXPLORACIÓN POR PLANTAS -->
-  <div class="space-y-6">
-    <h3 class="font-medieval text-amber-950 text-xl border-b border-amber-900/20 pb-2">🏢 Exploración: Detalles y Encuentros</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     
-    <div class="grid grid-cols-1 gap-6">
-        <!-- 1ª Planta -->
-        <div class="bg-amber-950/10 p-4 rounded border border-amber-900/20">
-            <h4 class="font-bold text-amber-950">1ª Planta: Laboratorio</h4>
-            <p class="text-xs text-stone-700 mt-2 mb-3"><strong>Enemigos:</strong> 2 Sanguijuelas (sombras entrada), 2 Filtradores (escritorios), 1 Amalgama (pasillo final).</p>
-            <p class="text-xs italic text-stone-600">"Al empujar la puerta, la luz apenas corta la oscuridad. El suelo está pegajoso. A dos metros, dos Sanguijuelas encogidas os fijan con urgencia famélica. Más adelante, al fondo, los Filtradores se despegan de las paredes. Al doblar la esquina, una mole de acero bloquea el paso: la Amalgama."</p>
-        </div>
-        <!-- 2ª Planta -->
-        <div class="bg-amber-950/10 p-4 rounded border border-amber-900/20">
-            <h4 class="font-bold text-amber-950">2ª Planta: Nivel de Servicio</h4>
-            <p class="text-xs text-stone-700 mt-2 mb-3"><strong>Enemigos:</strong> 1 Amalgama (pasillo central), 2 Filtradores (habitaciones laterales).</p>
-            <p class="text-xs italic text-stone-600">"En el centro del pasillo inmenso, la Amalgama de Carne está de pie, estática, obstruyendo la ruta. Sus ojos no parpadean. Al cruzar el umbral de las alcobas laterales, los Filtradores surgen de las sombras de los jergones, cerrando cualquier posibilidad de retirada."</p>
-        </div>
-        <!-- 3ª Planta -->
-        <div class="bg-amber-950/10 p-4 rounded border border-amber-900/20">
-            <h4 class="font-bold text-amber-950">3ª Planta: Estudios del Alquimista</h4>
-            <p class="text-xs text-stone-700 mt-2 mb-3"><strong>Enemigos:</strong> 2 Sanguijuelas (comedor), 2 Filtradores (dormitorios), 1 Amalgama (patrulla).</p>
-            <p class="text-xs italic text-stone-600">"En el comedor, dos Sanguijuelas sentadas observan al vacío hasta que la puerta se abre de par en par. En el estudio, un Filtrador hurga en un cadáver; en el otro, un Filtrador protege pergaminos con furia. En el pasillo, la Amalgama patrulla; su armadura chirría mientras se prepara para embestir."</p>
-        </div>
+    <!-- Sanguijuela -->
+    <div class="bg-amber-50 p-4 rounded-lg border border-amber-900/20 space-y-2">
+      <div class="flex justify-between items-center border-b border-amber-900/10 pb-1">
+        <span class="font-medieval font-bold text-amber-950 text-sm">🩸 Sanguijuela (x?)</span>
+        <span class="px-2 py-0.5 text-[10px] font-bold bg-amber-900/10 text-amber-950 rounded uppercase">Nivel 1</span>
+      </div>
+      <p class="text-xs text-stone-700 italic">Carne de cañón. Alta velocidad (8) para bloquear casillas.</p>
+      <table class="w-full text-xs text-left mt-2 border-collapse">
+        <tbody>
+          <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Función:</td><td class="py-1 font-bold text-stone-900">Bloqueo táctico</td></tr>
+          <tr><td class="py-1 font-semibold text-stone-600">Cuerpo:</td><td class="py-1 font-bold text-red-800">1 Punto</td></tr>
+        </tbody>
+      </table>
     </div>
+
+    <!-- Filtrador -->
+    <div class="bg-amber-50 p-4 rounded-lg border border-amber-900/20 space-y-2">
+      <div class="flex justify-between items-center border-b border-amber-900/10 pb-1">
+        <span class="font-medieval font-bold text-amber-950 text-sm">👁️ Filtrador (x?)</span>
+        <span class="px-2 py-0.5 text-[10px] font-bold bg-amber-900/10 text-amber-950 rounded uppercase">Nivel 2</span>
+      </div>
+      <p class="text-xs text-stone-700 italic">Especialistas en ataque a distancia y control de movimiento.</p>
+      <table class="w-full text-xs text-left mt-2 border-collapse">
+        <tbody>
+          <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Ataque:</td><td class="py-1 font-bold text-stone-900">Diagonal</td></tr>
+          <tr><td class="py-1 font-semibold text-stone-600">Reacción:</td><td class="py-1 font-bold text-stone-900">Oportunidad (reduce mov.)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Amalgama -->
+    <div class="bg-amber-50 p-4 rounded-lg border border-amber-900/20 space-y-2">
+      <div class="flex justify-between items-center border-b border-amber-900/10 pb-1">
+        <span class="font-medieval font-bold text-amber-950 text-sm">🍖 Amalgama de Carne (x?)</span>
+        <span class="px-2 py-0.5 text-[10px] font-bold bg-amber-900/10 text-amber-950 rounded uppercase">Nivel 3</span>
+      </div>
+      <p class="text-xs text-stone-700 italic">Mole de acero y carne. Sentinela impenetrable.</p>
+      <table class="w-full text-xs text-left mt-2 border-collapse">
+        <tbody>
+          <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Pasiva:</td><td class="py-1 font-bold text-stone-900">Piel Blindada (-1 daño)</td></tr>
+          <tr><td class="py-1 font-semibold text-stone-600">Castigo:</td><td class="py-1 font-bold text-stone-900">Reduce durabilidad arma</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Alquimista (Jefe) -->
+    <div class="bg-red-50 p-4 rounded-lg border border-red-900/20 space-y-2">
+      <div class="flex justify-between items-center border-b border-red-900/10 pb-1">
+        <span class="font-medieval font-bold text-red-950 text-sm">🧪 Alquimista (Jefe)</span>
+        <span class="px-2 py-0.5 text-[10px] font-bold bg-red-900/10 text-red-950 rounded uppercase">Jefe</span>
+      </div>
+      <p class="text-xs text-stone-700 italic">Manipulador rúnico del ritual.</p>
+      <table class="w-full text-xs text-left mt-2 border-collapse">
+        <tbody>
+          <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Defensa:</td><td class="py-1 font-bold text-red-800">Rúnica (Ignora 1 daño)</td></tr>
+          <tr><td class="py-1 font-semibold text-stone-600">Hechizos:</td><td class="py-1 font-bold text-stone-900">Vórtice, Muro, Drenaje</td></tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
+</div>
 
   <!-- CLÍMAX Y ESCAPE -->
   <div class="bg-red-950/10 p-6 rounded-lg border border-red-900/30 space-y-4">
