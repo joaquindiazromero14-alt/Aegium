@@ -246,291 +246,241 @@
 <!-- FIN PARTE 1 -->
 <!-- ♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍♍ -->
 
-    <section id="tab-misiones" class="tab-content hidden">
-      <div class="parchment rounded-lg p-6 md:p-10 text-stone-900 max-w-4xl mx-auto space-y-6">
-        
-        <div id="misiones-menu" class="block space-y-6">
-          <div class="text-center border-b border-amber-900/20 pb-4">
-            <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide">Bitácora de Gesta</h2>
-            <p class="font-medieval text-amber-800 text-sm mt-1">Selecciona una crónica activa para desplegar sus registros</p>
-          </div>
 
-          <div class="grid grid-cols-1 gap-6 max-w-xl mx-auto pt-2">
-            <div id="card-mission-prologo" class="border-2 border-amber-900/40 bg-amber-900/5 rounded-xl p-4 transition-all space-y-3 shadow-inner">
-              <div onclick="openMissionDetails('prologo')" class="flex justify-between items-center cursor-pointer group">
-                <div>
-                  <span id="badge-prologo" class="text-[10px] font-medieval font-bold text-red-900 uppercase tracking-widest bg-red-950/10 px-2 py-0.5 rounded">Activa</span>
-                  <h3 id="title-prologo" class="font-cinzel text-xl text-amber-950 font-bold mt-1 group-hover:text-amber-900 transition-colors">Prólogo: Invasión en Hamlet</h3>
-                  <p class="text-xs text-stone-700 font-body italic mt-0.5">La Taberna de Helmet bajo el asalto de la horda orca.</p>
-                </div>
-                <span id="icon-prologo" class="text-2xl opacity-70 group-hover:opacity-100 transition-opacity">⚔️</span>
-              </div>
-              
-              <div class="pt-2 border-t border-amber-900/20 flex flex-wrap gap-2 items-center justify-between text-[11px] font-medieval">
-                <span class="text-amber-900/80 uppercase tracking-wider font-bold">🛠️ Ajustes del DM:</span>
-                <div class="flex gap-1 font-sans">
-                  <button onclick="setMissionLock('prologo', false)" class="px-2.5 py-1 bg-amber-950 text-amber-200 text-xs rounded border border-amber-700/50 shadow-sm">🔓 Abrir</button>
-                  <button onclick="setMissionLock('prologo', true)" class="px-2.5 py-1 bg-stone-800 text-stone-400 text-xs rounded border border-stone-600/40">🔒 Cerrar</button>
-                  <button onclick="setMissionStatus('prologo', 'activa')" class="px-2.5 py-1 bg-red-800 text-red-100 text-xs rounded shadow-sm">🔥 Activa</button>
-                  <button onclick="setMissionStatus('prologo', 'completada')" class="px-2.5 py-1 bg-green-800 text-green-100 text-xs rounded shadow-sm">✅ Hecha</button>
-                </div>
-              </div>
-            </div>
 
-            <div id="card-mission-cap1" class="border-2 border-stone-400/40 bg-stone-900/5 rounded-xl p-4 transition-all opacity-50 space-y-3">
-              <div id="click-cap1" onclick="openMissionDetails('cap1')" class="flex justify-between items-center pointer-events-none group">
-                <div>
-                  <span id="badge-cap1" class="text-[10px] font-medieval font-bold text-stone-600 uppercase tracking-widest bg-stone-950/10 px-2 py-0.5 rounded">Bloqueada</span>
-                  <h3 id="title-cap1" class="font-cinzel text-xl text-stone-600 font-bold mt-1">Capítulo I: Las Tierras Inhóspitas</h3>
-                  <p class="text-xs text-stone-500 font-body italic mt-0.5">Ruta hacia las ruinas olvidadas cerca de Kalla Tors.</p>
-                </div>
-                <span id="icon-cap1" class="text-2xl">🔒</span>
-              </div>
-              
-              <div class="pt-2 border-t border-amber-900/20 flex flex-wrap gap-2 items-center justify-between text-[11px] font-medieval">
-                <span class="text-amber-900/80 uppercase tracking-wider font-bold">🛠️ Ajustes del DM:</span>
-                <div class="flex gap-1 font-sans">
-                  <button onclick="setMissionLock('cap1', false)" class="px-2.5 py-1 bg-amber-950 text-amber-200 text-xs rounded border border-amber-700/50 shadow-sm">🔓 Abrir</button>
-                  <button onclick="setMissionLock('cap1', true)" class="px-2.5 py-1 bg-stone-800 text-stone-400 text-xs rounded border border-stone-600/40">🔒 Cerrar</button>
-                  <button onclick="setMissionStatus('cap1', 'activa')" class="px-2.5 py-1 bg-red-800 text-red-100 text-xs rounded shadow-sm">🔥 Activa</button>
-                  <button onclick="setMissionStatus('cap1', 'completada')" class="px-2.5 py-1 bg-green-800 text-green-100 text-xs rounded shadow-sm">✅ Hecha</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div id="mission-content-prologo" class="hidden space-y-6">
-          <div class="flex justify-between items-center border-b border-amber-900/20 pb-2">
-            <button onclick="backToMisionesMenu()" class="px-3 py-1 bg-amber-950/10 hover:bg-amber-900/20 border border-amber-900/30 text-amber-950 font-medieval text-xs rounded transition-all">
-              ↩️ Volver al Listado
-            </button>
-            <span class="text-red-900 font-medieval font-bold text-xs uppercase tracking-widest bg-red-950/10 px-3 py-1 rounded">Primera Misión</span>
-          </div>
 
-          <div class="text-center">
-            <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide mt-2">Misión: Invasión en Hamlet</h2>
-            <p class="font-medieval text-amber-800 text-sm mt-1">Directrices del encuentro para el Dungeon Master</p>
-          </div>
 
-          <div class="bg-red-950/5 p-5 rounded border border-red-900/20 text-sm text-stone-800 leading-relaxed space-y-3">
-            <h3 class="font-medieval text-red-900 text-base font-bold uppercase tracking-wider">🔥 El Asalto de la Horda</h3>
-            <p class="italic text-stone-900 font-medium">
-              "Os encontráis en la Taberna de Hamlet, en el asentamiento del mismo nombre, cuando de repente las puertas son abiertas de par en par. Un viento gélido apaga las antorchas y una niebla cenicienta se extiende por el salón. El Heraldo del Ocaso irrumpe en el umbral, una figura imponente que, con un gesto de su mano, ordena la invasión. Hordas de orcos irrumpen en la taberna, sembrando el caos y confinando a los héroes momentáneamente. Tras dar estas instrucciones, el Heraldo se retira para liderar el asalto general sobre el pueblo."
-            </p>
-            <div class="p-3 bg-amber-950/10 text-xs rounded border-l-4 border-amber-800 text-amber-950 font-semibold">
-              📌 La taberna ha sido tomada, vuestros objetos han sido confiscados y guardados en la cocina. El objetivo es claro: recuperar el equipamiento, buscar a vuestros aliados repartidos por el local y liberar la taberna eliminando a los orcos invasores.
-                        <h3 class="font-medieval text-amber-950 text-lg border-b border-amber-900/20 pb-1">👾 Despliegue de Fuerzas Invasoras</h3>
-            <p class="text-sm text-stone-800">
-              En esta primera misión, los enemigos que aparecen dentro de los muros de la posada son un total de <strong>nueve orcos</strong>: de los cuales ocho pertenecen al nivel uno y uno actúa en función de jefe militar de la invasión con nivel dos.
-            </p>
+<!-- SECCIÓN DE MISIONES (Corregida y aislada) -->
+<section id="tab-misiones" class="tab-content hidden">
+  <div class="parchment rounded-lg p-6 md:p-10 text-stone-900 max-w-4xl mx-auto space-y-6">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="bg-amber-50 p-4 rounded-lg border border-amber-900/20 space-y-2">
-                <div class="flex justify-between items-center border-b border-amber-900/10 pb-1">
-                  <span class="font-medieval font-bold text-amber-950 text-sm">⚔️ Guerreros Orcos (x8)</span>
-                  <span class="px-2 py-0.5 text-[10px] font-bold bg-amber-900/10 text-amber-950 rounded uppercase">Nivel 1</span>
-                </div>
-                <p class="text-xs text-stone-700 italic">Tropas básicas desplegadas por las diferentes estancias de la taberna.</p>
-                <table class="w-full text-xs text-left mt-2 border-collapse">
-                  <tbody>
-                    <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Ataque:</td><td class="py-1 font-bold text-stone-900">3 Dados de Combate</td></tr>
-                    <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Defensa:</td><td class="py-1 font-bold text-stone-900">2 Dados de Combate</td></tr>
-                    <tr><td class="py-1 font-semibold text-stone-600">Cuerpo (Salud):</td><td class="py-1 font-bold text-red-800">1 Punto de Cuerpo</td></tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div class="bg-red-50 p-4 rounded-lg border border-red-900/20 space-y-2">
-                <div class="flex justify-between items-center border-b border-red-900/10 pb-1">
-                  <span class="font-medieval font-bold text-red-950 text-sm">🏆 Jefe de la Invasión (x1)</span>
-                  <span class="px-2 py-0.5 text-[10px] font-bold bg-red-900/10 text-red-950 rounded uppercase">Nivel 2</span>
-                </div>
-                <p class="text-xs text-stone-700 italic">Ubicado de forma estratégica coordinando el saqueo dentro del local.</p>
-                <table class="w-full text-xs text-left mt-2 border-collapse">
-                  <tbody>
-                    <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Ataque:</td><td class="py-1 font-bold text-stone-900">4 Dados de Combate</td></tr>
-                    <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Defensa:</td><td class="py-1 font-bold text-stone-900">3 Dados de Combate</td></tr>
-                    <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Cuerpo (Salud):</td><td class="py-1 font-bold text-red-800">Al menos 2 Puntos de Cuerpo</td></tr>
-                    <tr><td class="py-1 font-semibold text-stone-600">Equipo Especial:</td><td class="py-1 font-bold text-amber-900">Maza de Orco</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-          
-          <div class="bg-amber-950/10 p-5 rounded-xl border border-amber-900/30 space-y-4">
-
-            <div class="p-3 bg-red-950/5 rounded-lg border-l-4 border-red-800 text-xs text-stone-800 space-y-1">
-              <span class="font-medieval font-bold text-red-900 uppercase tracking-wide block">🔨 Habilidad de Arma: Impacto Demoledor</span>
-              <p class="leading-relaxed">
-                La Maza de Orco que porta el jefe dispone de una habilidad especial. Si al atacar salen <strong>tres o más calaveras</strong> en la tirada de dados de combate, el golpe resulta tan brutal que reduce inmediatamente un <strong>veinticinco por ciento (25%) la durabilidad máxima</strong> de la armadura o escudo del jugador objetivo. Si el héroe defensor no dispone de protección física equipada, queda automáticamente <strong>Aturdido</strong>.
-              </p>
-            </div>
-          </div>
-        </div>
-          <div class="bg-amber-900/5 p-4 rounded border border-amber-900/20 text-xs space-y-2 text-stone-800">
-            <span class="font-medieval font-bold text-amber-950 uppercase block">📍 Distribución de la Guarnición en la Taberna:</span>
-            <p>Para dirigir correctamente el avance en solitario, se aconseja organizar a los ocho guerreros orcos estándar repartidos por las diferentes estancias que muestran los mapas tacticos (Sótano, Planta Baja y Planta Alta) resguardando los accesos clave a las cocinas y las celdas de los aliados confiscados.</p>
-          </div>
-        </div>
-    </div>
+    <!-- 1. Menú de Listado -->
+    <div id="misiones-menu" class="block space-y-6">
+      <div class="text-center border-b border-amber-900/20 pb-4">
+        <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide">Bitácora de Gesta</h2>
+        <p class="font-medieval text-amber-800 text-sm mt-1">Selecciona una crónica activa para desplegar sus registros</p>
       </div>
-    </section>
 
-    <section id="tab-ubicaciones" class="tab-content hidden">
-      <div class="parchment rounded-lg p-6 md:p-10 text-stone-900 max-w-5xl mx-auto space-y-6">
-        <div class="text-center border-b border-amber-900/20 pb-4">
-          <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide">Códice de Geografía de Aegium</h2>
-          <p class="font-medieval text-amber-800 text-sm mt-1">Ubicaciones activas y cartografía táctica original sin recortes</p>
-        </div>
-  <div id="ubicaciones-list" class="space-y-4 mt-6">
-    <div onclick="abrirUbicacion('loc-taberna')" class="p-4 rounded-lg border border-amber-900/30 bg-amber-950/5 cursor-pointer hover:bg-amber-900/10 transition">
-      <h3 class="font-bold text-lg text-amber-950 font-medieval">La Taberna de Hamlet</h3>
-      <p class="text-sm text-stone-700 mt-1">Lugar de descanso, rumores y un sótano con secretos.</p>
-    </div>
-  </div>
-
-  <div id="ubicaciones-details" class="hidden mt-6">
-    <button onclick="volverListadoUbicaciones()" class="mb-6 flex items-center text-amber-900 hover:text-amber-700 font-semibold text-sm">
-      <span class="mr-2">&larr;</span> Volver al listado
-    </button>
-    
-    <div id="loc-taberna" class="location-content hidden">
-      
-        <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-amber-900/5 p-4 rounded border border-amber-900/20">
-          <div class="flex items-center gap-2">
-            <span class="text-2xl">📍</span>
+      <div class="grid grid-cols-1 gap-6 max-w-xl mx-auto pt-2">
+        <div id="card-mission-prologo" class="border-2 border-amber-900/40 bg-amber-900/5 rounded-xl p-4 transition-all space-y-3 shadow-inner">
+          <div onclick="openMissionDetails('prologo')" class="flex justify-between items-center cursor-pointer group">
             <div>
-              <h3 class="font-medieval text-amber-950 text-lg">La Taberna de Helmet</h3>
-              <p class="text-xs text-stone-600">Zonas de Campaña &bull; Asentamiento de Hamlet</p>
+              <span id="badge-prologo" class="text-[10px] font-medieval font-bold text-red-900 uppercase tracking-widest bg-red-950/10 px-2 py-0.5 rounded">Activa</span>
+              <h3 id="title-prologo" class="font-cinzel text-xl text-amber-950 font-bold mt-1 group-hover:text-amber-900 transition-colors">Prólogo: Invasión en Hamlet</h3>
+              <p class="text-xs text-stone-700 font-body italic mt-0.5">La Taberna de Helmet bajo el asalto de la horda orca.</p>
             </div>
+            <span id="icon-prologo" class="text-2xl opacity-70 group-hover:opacity-100 transition-opacity">⚔️</span>
           </div>
-          
-          <div class="flex gap-1 bg-amber-950/20 p-1 rounded border border-amber-900/30 w-full md:w-auto">
-            <button onclick="selectFloor('basement')" id="btn-floor-basement" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medieval tracking-wider uppercase rounded transition-all bg-amber-900/20 text-amber-950 hover:bg-amber-900/30">
-              💀 Sótano / Almacén
-            </button>
-            <button onclick="selectFloor('ground')" id="btn-floor-ground" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medieval tracking-wider uppercase rounded transition-all bg-amber-955/80 text-amber-100 font-bold shadow-sm">
-              🍺 Planta Baja
-            </button>
-            <button onclick="selectFloor('upper')" id="btn-floor-upper" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medieval tracking-wider uppercase rounded transition-all bg-amber-900/20 text-amber-950 hover:bg-amber-900/30">
-              🛌 Planta Alta
-            </button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          <div class="lg:col-span-7 bg-amber-950/20 p-4 rounded-lg border border-amber-900/30 flex flex-col items-center justify-center relative shadow-inner min-h-[350px]">
-            <div class="map-frame rounded-md overflow-hidden w-full max-w-[420px] aspect-square relative bg-stone-950 cursor-zoom-in" onclick="openMapLightbox()" title="Hacer clic para ampliar mapa a pantalla completa">
-              <img id="img-basement" src="One-Eyed Jax Tavern Level 0.jpg" onerror="this.src='One-Eyed Jax Tavern Level 0.jpg'" alt="[Mapa del Sótano]" class="map-image w-full h-full object-contain hidden">
-              <img id="img-ground" src="One-Eyed Jax Tavern Level 1.jpg" onerror="this.src='One-Eyed Jax Tavern Level 1.jpg'" alt="[Mapa de la Planta Baja]" class="map-image w-full h-full object-contain">
-              <img id="img-upper" src="One-Eyed Jax Tavern Level 2.jpg" onerror="this.src='One-Eyed Jax Tavern Level 2.jpg'" alt="[Mapa de la Planta Alta]" class="map-image w-full h-full object-contain hidden">
-              
-              <div class="absolute bottom-2 right-2 bg-black/75 text-amber-400 p-1.5 rounded-full pointer-events-none text-xs flex items-center gap-1 font-medieval shadow-md border border-amber-900/30">
-                <span>🔍</span> Ampliar
-              </div>
-            </div>
-
-            <div class="mt-4 w-full max-w-[420px] bg-amber-950/5 p-3 rounded border border-amber-900/15 text-center">
-              <p class="text-[10px] text-amber-950/80 mb-2 font-semibold">⚠️ ¿Rutas bloqueadas en local? Vincula tus imágenes aquí:</p>
-              <div class="flex flex-wrap gap-2 justify-center">
-                <label class="px-2 py-1 bg-amber-900/20 hover:bg-amber-900/30 border border-amber-900/40 text-stone-950 rounded cursor-pointer text-[10px] font-medieval transition-colors">
-                  🔗 Sótano
-                  <input type="file" accept="image/*" class="hidden" onchange="loadLocalMap(this, 'basement')">
-                </label>
-                <label class="px-2 py-1 bg-amber-900/20 hover:bg-amber-900/30 border border-amber-900/40 text-stone-950 rounded cursor-pointer text-[10px] font-medieval transition-colors">
-                  🔗 P. Baja
-                  <input type="file" accept="image/*" class="hidden" onchange="loadLocalMap(this, 'ground')">
-                </label>
-                <label class="px-2 py-1 bg-amber-900/20 hover:bg-amber-900/30 border border-amber-900/40 text-stone-950 rounded cursor-pointer text-[10px] font-medieval transition-colors">
-                  🔗 P. Alta
-                  <input type="file" accept="image/*" class="hidden" onchange="loadLocalMap(this, 'upper')">
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="lg:col-span-5 space-y-4">
-            <div class="bg-amber-900/10 p-4 rounded-lg border border-amber-900/20 space-y-2">
-              <h4 class="font-medieval text-amber-950 text-xs font-bold uppercase tracking-wider">🔍 Puntos de Interés:</h4>
-              <div id="room-buttons-container" class="grid grid-cols-2 gap-2"></div>
-            </div>
-
-            <div class="bg-amber-900/5 p-5 rounded-lg border border-amber-900/25 space-y-4 min-h-[220px]">
-              <div class="border-b border-amber-900/10 pb-2">
-                <span id="room-badge" class="px-2 py-0.5 text-[10px] font-medieval tracking-widest uppercase bg-amber-900/20 text-amber-950 rounded">Planta Baja</span>
-                <h4 id="room-title" class="font-cinzel text-lg text-amber-950 font-bold mt-1">Selecciona una estancia</h4>
-                <p id="room-subtitle" class="text-xs text-stone-600 italic">Explora la geografía de la misión.</p>
-              </div>
-
-              <div class="text-sm text-stone-800 space-y-3 leading-relaxed">
-                <div id="room-desc">
-                  Actualmente te encuentras en el asentamiento de **Hamlet**, listos para librar la primera escaramuza defensiva en la **Taberna de Helmet**. Utiliza el panel para ver plantas y sus estancias con notas del Master.
-                </div>
-                <div id="room-secrets-box" class="hidden bg-amber-900/10 p-3 rounded border border-amber-900/15 space-y-1.5">
-                  <h5 class="font-medieval text-xs text-amber-900 uppercase font-bold tracking-wider">👁️ Secretos del DM:</h5>
-                  <ul id="room-secrets" class="text-xs list-disc pl-4 text-stone-900 space-y-1"></ul>
-                </div>
-              </div>
+          <div class="pt-2 border-t border-amber-900/20 flex flex-wrap gap-2 items-center justify-between text-[11px] font-medieval">
+            <span class="text-amber-900/80 uppercase tracking-wider font-bold">🛠️ Ajustes del DM:</span>
+            <div class="flex gap-1 font-sans">
+              <button onclick="setMissionLock('prologo', false)" class="px-2.5 py-1 bg-amber-950 text-amber-200 text-xs rounded border border-amber-700/50 shadow-sm">🔓 Abrir</button>
+              <button onclick="setMissionLock('prologo', true)" class="px-2.5 py-1 bg-stone-800 text-stone-400 text-xs rounded border border-stone-600/40">🔒 Cerrar</button>
+              <button onclick="setMissionStatus('prologo', 'activa')" class="px-2.5 py-1 bg-red-800 text-red-100 text-xs rounded shadow-sm">🔥 Activa</button>
+              <button onclick="setMissionStatus('prologo', 'completada')" class="px-2.5 py-1 bg-green-800 text-green-100 text-xs rounded shadow-sm">✅ Hecha</button>
             </div>
           </div>
         </div>
-      </div>
+
+        <div id="card-mission-cap1" class="border-2 border-stone-400/40 bg-stone-900/5 rounded-xl p-4 transition-all opacity-50 space-y-3">
+          <div id="click-cap1" onclick="openMissionDetails('cap1')" class="flex justify-between items-center pointer-events-none group">
+            <div>
+              <span id="badge-cap1" class="text-[10px] font-medieval font-bold text-stone-600 uppercase tracking-widest bg-stone-950/10 px-2 py-0.5 rounded">Bloqueada</span>
+              <h3 id="title-cap1" class="font-cinzel text-xl text-stone-600 font-bold mt-1">Capítulo I: Las Tierras Inhóspitas</h3>
+              <p class="text-xs text-stone-500 font-body italic mt-0.5">Ruta hacia las ruinas olvidadas cerca de Kalla Tors.</p>
+            </div>
+            <span id="icon-cap1" class="text-2xl">🔒</span>
+          </div>
+          <div class="pt-2 border-t border-amber-900/20 flex flex-wrap gap-2 items-center justify-between text-[11px] font-medieval">
+            <span class="text-amber-900/80 uppercase tracking-wider font-bold">🛠️ Ajustes del DM:</span>
+            <div class="flex gap-1 font-sans">
+              <button onclick="setMissionLock('cap1', false)" class="px-2.5 py-1 bg-amber-950 text-amber-200 text-xs rounded border border-amber-700/50 shadow-sm">🔓 Abrir</button>
+              <button onclick="setMissionLock('cap1', true)" class="px-2.5 py-1 bg-stone-800 text-stone-400 text-xs rounded border border-stone-600/40">🔒 Cerrar</button>
+              <button onclick="setMissionStatus('cap1', 'activa')" class="px-2.5 py-1 bg-red-800 text-red-100 text-xs rounded shadow-sm">🔥 Activa</button>
+              <button onclick="setMissionStatus('cap1', 'completada')" class="px-2.5 py-1 bg-green-800 text-green-100 text-xs rounded shadow-sm">✅ Hecha</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div> 
-    </div> 
 
-      <div id="mission-content-cap1" class="hidden space-y-6">
-    <!-- Encabezado -->
-    <div class="text-center border-b border-amber-900/20 pb-4">
+    <!-- 2. Contenido Detallado: Prologo -->
+    <div id="mission-content-prologo" class="hidden space-y-6">
+      <div class="flex justify-between items-center border-b border-amber-900/20 pb-2">
+        <button onclick="backToMisionesMenu()" class="px-3 py-1 bg-amber-950/10 hover:bg-amber-900/20 border border-amber-900/30 text-amber-950 font-medieval text-xs rounded transition-all">↩️ Volver al Listado</button>
+        <span class="text-red-900 font-medieval font-bold text-xs uppercase tracking-widest bg-red-950/10 px-3 py-1 rounded">Primera Misión</span>
+      </div>
+      <div class="text-center">
+        <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide mt-2">Misión: Invasión en Hamlet</h2>
+        <p class="font-medieval text-amber-800 text-sm mt-1">Directrices del encuentro para el Dungeon Master</p>
+      </div>
+      <div class="bg-red-950/5 p-5 rounded border border-red-900/20 text-sm text-stone-800 leading-relaxed space-y-3">
+        <h3 class="font-medieval text-red-900 text-base font-bold uppercase tracking-wider">🔥 El Asalto de la Horda</h3>
+        <p class="italic text-stone-900 font-medium">"Os encontráis en la Taberna de Hamlet, en el asentamiento del mismo nombre, cuando de repente las puertas son abiertas de par en par. Un viento gélido apaga las antorchas y una niebla cenicienta se extiende por el salón. El Heraldo del Ocaso irrumpe en el umbral, una figura imponente que, con un gesto de su mano, ordena la invasión. Hordas de orcos irrumpen en la taberna, sembrando el caos y confinando a los héroes momentáneamente. Tras dar estas instrucciones, el Heraldo se retira para liderar el asalto general sobre el pueblo."</p>
+        <div class="p-3 bg-amber-950/10 text-xs rounded border-l-4 border-amber-800 text-amber-950 font-semibold">
+          📌 La taberna ha sido tomada, vuestros objetos han sido confiscados y guardados en la cocina. El objetivo es claro: recuperar el equipamiento, buscar a vuestros aliados repartidos por el local y liberar la taberna eliminando a los orcos invasores.
+          <h3 class="font-medieval text-amber-950 text-lg border-b border-amber-900/20 pb-1 mt-3">👾 Despliegue de Fuerzas Invasoras</h3>
+          <p class="text-sm text-stone-800 mt-2">En esta primera misión, los enemigos que aparecen dentro de los muros de la posada son un total de <strong>nueve orcos</strong>: de los cuales ocho pertenecen al nivel uno y uno actúa en función de jefe militar de la invasión con nivel dos.</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+            <div class="bg-amber-50 p-4 rounded-lg border border-amber-900/20 space-y-2">
+              <div class="flex justify-between items-center border-b border-amber-900/10 pb-1">
+                <span class="font-medieval font-bold text-amber-950 text-sm">⚔️ Guerreros Orcos (x8)</span>
+                <span class="px-2 py-0.5 text-[10px] font-bold bg-amber-900/10 text-amber-950 rounded uppercase">Nivel 1</span>
+              </div>
+              <p class="text-xs text-stone-700 italic">Tropas básicas desplegadas por las diferentes estancias de la taberna.</p>
+              <table class="w-full text-xs text-left mt-2 border-collapse">
+                <tbody>
+                  <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Ataque:</td><td class="py-1 font-bold text-stone-900">3 Dados de Combate</td></tr>
+                  <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Defensa:</td><td class="py-1 font-bold text-stone-900">2 Dados de Combate</td></tr>
+                  <tr><td class="py-1 font-semibold text-stone-600">Cuerpo (Salud):</td><td class="py-1 font-bold text-red-800">1 Punto de Cuerpo</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="bg-red-50 p-4 rounded-lg border border-red-900/20 space-y-2">
+              <div class="flex justify-between items-center border-b border-red-900/10 pb-1">
+                <span class="font-medieval font-bold text-red-950 text-sm">🏆 Jefe de la Invasión (x1)</span>
+                <span class="px-2 py-0.5 text-[10px] font-bold bg-red-900/10 text-red-950 rounded uppercase">Nivel 2</span>
+              </div>
+              <p class="text-xs text-stone-700 italic">Ubicado de forma estratégica coordinando el saqueo dentro del local.</p>
+              <table class="w-full text-xs text-left mt-2 border-collapse">
+                <tbody>
+                  <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Ataque:</td><td class="py-1 font-bold text-stone-900">4 Dados de Combate</td></tr>
+                  <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Defensa:</td><td class="py-1 font-bold text-stone-900">3 Dados de Combate</td></tr>
+                  <tr class="border-b border-stone-200"><td class="py-1 font-semibold text-stone-600">Cuerpo (Salud):</td><td class="py-1 font-bold text-red-800">Al menos 2 Puntos de Cuerpo</td></tr>
+                  <tr><td class="py-1 font-semibold text-stone-600">Equipo Especial:</td><td class="py-1 font-bold text-amber-900">Maza de Orco</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-amber-950/10 p-5 rounded-xl border border-amber-900/30 space-y-4">
+        <div class="p-3 bg-red-950/5 rounded-lg border-l-4 border-red-800 text-xs text-stone-800 space-y-1">
+          <span class="font-medieval font-bold text-red-900 uppercase tracking-wide block">🔨 Habilidad de Arma: Impacto Demoledor</span>
+          <p class="leading-relaxed">La Maza de Orco que porta el jefe dispone de una habilidad especial. Si al atacar salen <strong>tres o más calaveras</strong> en la tirada de dados de combate, el golpe resulta tan brutal que reduce inmediatamente un <strong>veinticinco por ciento (25%) la durabilidad máxima</strong> de la armadura o escudo del jugador objetivo. Si el héroe defensor no dispone de protección física equipada, queda automáticamente <strong>Aturdido</strong>.</p>
+          <span id="room-badge" class="px-2 py-0.5 text-[10px] font-medieval tracking-widest uppercase bg-amber-900/20 text-amber-950 rounded">Planta Baja</span>
+          <h4 id="room-title" class="font-cinzel text-lg text-amber-950 font-bold mt-1">Selecciona una estancia</h4>
+          <p id="room-subtitle" class="text-xs text-stone-600 italic">Explora la geografía de la misión.</p>
+        </div>
+        <div class="text-sm text-stone-800 space-y-3 leading-relaxed">
+          <div id="room-desc">Actualmente te encuentras en el asentamiento de **Hamlet**, listos para librar la primera escaramuza defensiva en la **Taberna de Helmet**. Utiliza el panel para ver plantas y sus estancias con notas del Master.</div>
+          <div id="room-secrets-box" class="hidden bg-amber-900/10 p-3 rounded border border-amber-900/15 space-y-1.5">
+            <h5 class="font-medieval text-xs text-amber-900 uppercase font-bold tracking-wider">👁️ Secretos del DM:</h5>
+            <ul id="room-secrets" class="text-xs list-disc pl-4 text-stone-900 space-y-1"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Contenido Detallado: Capitulo 1 -->
+    <div id="mission-content-cap1" class="hidden space-y-6">
+      <div class="flex justify-between items-center border-b border-amber-900/20 pb-2">
+        <button onclick="backToMisionesMenu()" class="px-3 py-1 bg-amber-950/10 hover:bg-amber-900/20 border border-amber-900/30 text-amber-950 font-medieval text-xs rounded transition-all">↩️ Volver al Listado</button>
+      </div>
+      <div class="text-center border-b border-amber-900/20 pb-4">
         <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide">Kalla Tors: El Matadero Silencioso</h2>
         <p class="font-medieval text-amber-800 text-sm mt-1">La verdad oculta tras el Cataclismo</p>
-    </div>
-
-    <!-- Parte I y II: Introducción -->
-    <div class="bg-amber-950/5 p-5 rounded-lg border border-amber-900/20 space-y-3">
+      </div>
+      <div class="bg-amber-950/5 p-5 rounded-lg border border-amber-900/20 space-y-3">
         <h3 class="font-medieval text-red-900 text-base font-bold">Introducción</h3>
         <p class="text-stone-800 text-sm">El asalto ha terminado. Edric os agradece la defensa de Hamlet, pero un trampero con quemaduras violáceas os advierte: Kalla Tors no es un campamento, es un matadero. Algo procesa a los vivos en sus profundidades.</p>
-    </div>
-
-    <!-- Mecánicas y Enemigos -->
-    <div class="bg-amber-950/5 p-5 rounded-xl border border-amber-900/20 space-y-4">
+      </div>
+      <div class="bg-amber-950/5 p-5 rounded-xl border border-amber-900/20 space-y-4">
         <h3 class="font-medieval text-amber-950 text-lg font-bold">Despliegue y Enemigos</h3>
         <p class="text-xs text-stone-600">Enemigos: Sanguijuelas (Nv 1, Bloqueo), Filtradores (Nv 2, Ataque Diagonal), Amalgama (Nv 3, Piel Blindada), Alquimista (Jefe, Defensa Rúnica).</p>
-        
-        <!-- Espacio para imágenes: cambia los src por tus archivos -->
         <div class="grid grid-cols-2 gap-2">
             <img src="mapa_kalla.jpg" class="w-full h-auto border-2 border-amber-900" alt="Mapa">
             <img src="enemigos.jpg" class="w-full h-auto border-2 border-amber-900" alt="Enemigos">
         </div>
-    </div>
-
-    <!-- El Clímax -->
-    <div class="bg-amber-950/5 p-5 rounded-lg border border-amber-900/20 space-y-3">
+      </div>
+      <div class="bg-amber-950/5 p-5 rounded-lg border border-amber-900/20 space-y-3">
         <h3 class="font-medieval text-red-900 text-base font-bold">Clímax: La Eclosión</h3>
         <p class="text-stone-800 text-sm italic">"El huevo explota. Una onda de choque os lanza hacia atrás. Una abominación de piel correosa y ojos con furia antinatural emerge."</p>
         <div class="p-3 bg-red-950/20 text-xs border border-red-900/30">
             <p><strong>Dilema:</strong> Muro de piedra (20 HP), Gas (-2 HP/turno), Prisioneros (mueren en 2 turnos).</p>
         </div>
-    </div>
-
-    <!-- Final -->
-    <div class="bg-amber-950/5 p-5 rounded-lg border border-amber-900/20 space-y-3">
+      </div>
+      <div class="bg-amber-950/5 p-5 rounded-lg border border-amber-900/20 space-y-3">
         <h3 class="font-medieval text-amber-950 text-base font-bold">Recompensa</h3>
         <p class="text-stone-800 text-sm">Si salvan a los prisioneros: 100 oros/jugador, Ficha del Herrero (Reparación gratuita) y llaves de la taberna.</p>
-    </div>
       </div>
-      
-    </section>
+    </div>
+  </div>
+</section>
+    
 
-<section id="tab-herramientas" class="tab-content hidden">
-  <div class="parchment rounded-lg p-6 md:p-10...
 
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <section id="tab-ubicaciones" class="tab-content hidden">
+  <div class="parchment rounded-lg p-6 md:p-10 text-stone-900 max-w-4xl mx-auto space-y-6">
+    <div class="text-center border-b border-amber-900/20 pb-4">
+      <h2 class="font-cinzel text-2xl md:text-3xl text-amber-950 font-bold tracking-wide">Códice de Geografía de Ae</h2>
+      <p class="font-medieval text-amber-800 text-sm mt-1">Ubicaciones activas y cartografía táctica original sin r</p>
+    </div>
+
+    <div id="ubicaciones-list" class="space-y-4 mt-6">
+      <div onclick="abrirUbicacion('loc-taberna')" class="p-4 rounded-lg border border-amber-900/30 bg-amber-950/5 cursor-pointer hover:bg-amber-950/10 transition-all">
+        <h3 class="font-bold text-lg text-amber-950 font-medieval">La Taberna de Hamlet</h3>
+        <p class="text-sm text-stone-700 mt-1">Lugar de descanso, rumores y un sótano con secretos.</p>
+      </div>
+    </div>
+
+    <div id="ubicaciones-details" class="hidden mt-6">
+      <button onclick="volverListadoUbicaciones()" class="mb-6 flex items-center text-amber-900 hover:text-amber-700 font-medieval">
+        <span class="mr-2">&larr;</span> Volver al listado
+      </button>
+
+      <div id="loc-taberna" class="location-content hidden">
+        <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-amber-950/5 p-4 rounded border border-amber-900/20">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">📍</span>
+            <h3 class="font-medieval text-amber-950 text-lg">La Taberna de Hamlet</h3>
+          </div>
+          <p class="text-xs text-stone-600">Zonas de Campaña • Asentamiento de Hamlet</p>
+        </div>
+        
+        <div class="flex gap-1 bg-amber-950/20 p-1 rounded border border-amber-900/30 w-full md:w-auto mt-4">
+          <button onclick="selectFloor('basement')" id="btn-floor-basement" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medium text-amber-950 bg-amber-200/50 rounded shadow-sm">
+            💀 Sótano / Almacén
+          </button>
+          <button onclick="selectFloor('ground')" id="btn-floor-ground" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medium text-stone-700 hover:text-amber-950 transition-colors">
+            🍺 Planta Baja
+          </button>
+          <button onclick="selectFloor('upper')" id="btn-floor-upper" class="flex-1 md:flex-none px-3 py-1.5 text-xs font-medium text-stone-700 hover:text-amber-950 transition-colors">
+            🪜 Planta Alta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+    
 
 <section id="tab-herramientas" class="tab-content hidden">
   
